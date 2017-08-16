@@ -1,0 +1,21 @@
+# Logs
+*.log
+
+# Results
+scripts/output
+*.csg
+*.csv
+
+# Runtime data
+*.pid
+*.seed
+
+# System files
+*~
+.DS_Store
+
+# Projects
+nbproject/
+.idea
+.settings
+.project
