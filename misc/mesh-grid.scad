@@ -24,6 +24,7 @@
  * A parametric mesh grid
  *
  * @author jsconan
+ * @version 0.1.0
  */
 
 // As we need to use some shapes, use the right entry point of the library
@@ -53,7 +54,7 @@ meshWidth  = width - 2 * paddingY;
 
 // Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
-applyMode(mode=renderMode) {
+buildBox(mode=renderMode) {
     difference() {
         cushion([length, width, thickness], d=corner);
 

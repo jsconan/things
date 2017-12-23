@@ -24,6 +24,7 @@
  * A simple parametric box with rounded corners.
  *
  * @author jsconan
+ * @version 0.1.0
  */
 
 // As we need to use some shapes, use the right entry point of the library

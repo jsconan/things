@@ -22,9 +22,10 @@
 
 /**
  * A camera holder to mount on a TinyWhoop quadcopter.
- * Default dimensions are for a Blade Inductrix and a CM275T camera.
+ * Default dimensions are for a Blade Inductrix and a CM275T/VM2751 camera.
  *
  * @author jsconan
+ * @version 0.1.0
  */
 
 // As we need to use some shapes, use the right entry point of the library
