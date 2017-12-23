@@ -24,6 +24,7 @@
  * A base skeleton to start designing a thing using the camelSCAD library.
  *
  * @author jsconan
+ * @version 0.1.0
  */
 
 // As we need to use some shapes, use the right entry point of the library.
@@ -49,5 +50,5 @@ printResolution = 0.2;
 // Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
 buildBox(mode=renderMode) {
-    
+
 }
