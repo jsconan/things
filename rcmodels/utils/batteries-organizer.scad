@@ -42,9 +42,10 @@ printWidth = 0.4;
 batteryCountX = 8;
 batteryCountY = 1;
 batteryDepth = 20;
-batteryType = "BF-1S-260";
+batteryType = "BF-1S-550";
 batteries = [
-    ["BF-1S-260", 12.0, 6.3],   // BetaFPV HV 1S 260mAh
+    ["BF-1S-260", 12.0, 6.3],   // BetaFPV 1S HV 260mAh
+    ["BF-1S-550", 18.0, 7.4],   // BetaFPV 1S HV 550mAh
     ["XT-1S-220", 10.5, 6.2],   // xTron 1S 220mAh
     ["YM-1S-220", 11.5, 6.2],   // YukiModel 1S 220mAh
     ["YM-2S-600", 31, 13.5],    // YukiModel 2S 600mAh
