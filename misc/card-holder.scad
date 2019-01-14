@@ -24,6 +24,7 @@
  * A parametric card holder, that can also be utilized as a target for darts gun.
  *
  * @author jsconan
+ * @version 0.1.0
  */
 
 // As we need to use some shapes, use the right entry point of the library

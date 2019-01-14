@@ -24,6 +24,7 @@
  * A simple batteries organizer
  *
  * @author jsconan
+ * @version 0.1.0
  */
 
 // As we need to use some shapes, use the right entry point of the library
@@ -41,8 +42,12 @@ printWidth = 0.4;
 batteryCountX = 6;
 batteryCountY = 1;
 batteryDepth = 20;
-batteryType = "YM-1S-220";
+batteryType = "DY-2S-600";
 batteries = [
+    ["BF-1S-260", 12.0, 6.3],   // BetaFPV 1S HV 260mAh
+    ["BF-1S-550", 18.0, 7.4],   // BetaFPV 1S HV 550mAh
+    ["HM-1S-450", 18.5, 6.8],   // Happymodel 1S HV 450mAh
+    ["DY-2S-600", 24.5, 12.5],  // DYS 2S 600mAh
     ["XT-1S-220", 10.5, 6.2],   // xTron 1S 220mAh
     ["YM-1S-220", 11.5, 6.2],   // YukiModel 1S 220mAh
     ["YM-2S-600", 31, 13.5],    // YukiModel 2S 600mAh

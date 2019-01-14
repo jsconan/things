@@ -1,4 +1,4 @@
- /**
+/**
  * @license
  * GPLv3 License
  *
@@ -21,43 +21,48 @@
  */
 
 /**
- * A parametric hanging star.
+ * A simple spatula.
  *
  * @author jsconan
  * @version 0.1.0
  */
 
-// As we need to use some shapes, use the right entry point of the library
+// As we need to use some shapes, use the right entry point of the library.
 use <../lib/camelSCAD/shapes.scad>
+
+// To be able to use the library shared constants we import the definition file.
 include <../lib/camelSCAD/core/constants.scad>
 
 // We will render the object using the specifications of this mode
 renderMode = MODE_PROD;
 
-// Defines the dimensions of the star
-radius = 40;
-thickness = 3;
-holeDiameter = 4;
-ringThickness = 2;
-ringDiameter = holeDiameter + ringThickness * 2;
-coreRadius = (radius * 2) * (1 - 3 / 5);
+// Defines the constraints of the print.
+printResolution = 0.2;
+
+// Defines the constraints of the object.
+thickness = 1;
+bladeWidth = 6;
+bladeLength = 10;
+bladeRound = 3;
+handleLength = 100;
+handleWidth = 3;
+
+// Defines the dimensions of the object.
+bladeThickness = roundBy(thickness, printResolution);
+bladeSize = [bladeLength, bladeWidth, bladeThickness];
+handleSize = [handleLength, handleWidth, bladeThickness];
+handleRound = handleWidth;
 
 // Sets the minimum facet angle and size using the defined render mode.
-applyMode(renderMode) {
-    // This is the frame of the star
-    difference() {
-        starBox(size=radius, h=thickness, edges=5, center=true);
-        starBox(size=radius / 1.5, h=thickness + 1, edges=5, center=true);
-    }
-    // This is the core of the star
-    rotateZ(180) {
-        difference() {
-            regularPolygonBox(size=coreRadius, n=5, h=thickness, center=true);
-            cylinder(r=radius / 5, h=thickness + 1, center=true);
+// Displays a build box visualization to preview the printer area.
+buildBox(mode=renderMode) {
+    cushion(size=bladeSize, r=bladeRound);
+    translateX(handleLength / 2) {
+        cushion(size=handleSize, r=handleRound);
+        translateZ(bladeThickness) {
+            rotateY(90) {
+                pill(size=reverse(handleSize) + [bladeThickness, 0, 0], r=handleRound);
+            }
         }
-    }
-    // This is the ring to hook the star
-    translate([0, radius + ringThickness]) {
-        pipe(d=ringDiameter, w=ringThickness, h=thickness, center=true);
     }
 }

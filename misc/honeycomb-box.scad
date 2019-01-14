@@ -21,7 +21,7 @@
  */
 
 /**
- * A parametric mesh grid
+ * A parametric honeycomb box
  *
  * @author jsconan
  * @version 0.1.0
@@ -34,45 +34,46 @@ include <../lib/camelSCAD/core/constants.scad>
 // We will render the object using the specifications of this mode
 renderMode = MODE_PROD;
 
-// Defines the dimensions of the object
-length = 120;
-width = 120;
-thickness = 2;
-corner = 8;
-paddingX = 6;
-paddingY = 6;
-holeDiameter = 5;
-holeIntervalX = length - 2 * holeDiameter;
-holeIntervalY = width - 2 * holeDiameter;
+// Defines the constraints of the print
+printResolution = 0.2;
+printWidth = 0.4;
 
-cellCountX = 10;
-cellCountY = 10;
-cellSpaceX = 1;
-cellSpaceY = 1;
-meshLength = length - 2 * paddingX;
-meshWidth  = width - 2 * paddingY;
+// Defines the constraints of the object
+cellCountX = 6;
+cellCountY = 4;
+cellDepth = 20;
+cellLength = 13;
+cellWidth = 13;
+
+// Defines the dimensions of the object
+wall = roundBy(.5, printWidth);
+base = roundBy(.7, printResolution);
+count = divisor2D([cellCountX, cellCountY]);
+innerCell = [cellLength, cellWidth] / cos(30);
+outerCell = vadd(innerCell, wall);
+outerHeight = base + cellDepth;
+pointy = true;
+linear = true;
+even = true;
+offset = offsetHexGrid(size=outerCell, count=count, pointy=pointy, linear=linear, even=even);
+size = sizeHexGrid(size=outerCell, count=count, pointy=pointy, linear=linear, even=even);
 
 // Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
 buildBox(mode=renderMode) {
-    difference() {
-        cushion([length, width, thickness], d=corner);
-
-        negativeExtrude(thickness, direction=2) {
-            translate([holeIntervalX, holeIntervalY, 0] / -2) {
-                repeat2D(countX=2, countY=2, intervalX=[holeIntervalX, 0, 0], intervalY=[0, holeIntervalY, 0]) {
-                    circle(d=holeDiameter);
+    //sample(size=apply3D(size, z=5), offset=[0,0,outerHeight-5])
+    for(hex = buildHexGrid(count=count, linear=linear)) {
+        translate(offset + coordHexCell(hex=hex, size=outerCell, linear=linear, even=even, pointy=pointy)) {
+            difference() {
+                linear_extrude(outerHeight) {
+                    hexagon(size=outerCell, pointy=pointy);
+                }
+                translateZ(base) {
+                    linear_extrude(outerHeight) {
+                        hexagon(size=innerCell, pointy=pointy);
+                    }
                 }
             }
-
-            mesh(
-                size  = [meshLength, meshWidth],
-                count = [cellCountX, cellCountY],
-                gap   = [cellSpaceX, cellSpaceY],
-                linear = true,
-                even = true,
-                pointy = false
-            );
         }
     }
 }
