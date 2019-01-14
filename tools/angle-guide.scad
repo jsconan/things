@@ -53,7 +53,7 @@ shift = arcp(r=vector2D(step), a=angle / 2);
  * Draws a line of holes
  * @param Number length - The length of the line
  * @param Number interval - The distance between holes
- * @param Number diameter - The diameter of eacg hole
+ * @param Number diameter - The diameter of each hole
  */
 module holeLine(length, interval, diameter) {
     count = floor(length / interval) + 1;
