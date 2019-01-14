@@ -19,3 +19,6 @@ nbproject/
 .idea
 .settings
 .project
+
+# Generated files
+*.stl
