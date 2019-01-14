@@ -44,13 +44,13 @@ plateWidth = 40;
 plateThickness = 3;
 chamferWidth = 5;
 
-fixingHoleDiameter = 5;
+fixingHoleDiameter = 6.5;
 fixingHoleChamfer = 1;
 fixingHoleChamferDepth = .8;
 
-hookLength = 9;
-hookWidth = 8;
-hookHeight = 15;
+hookLength = 11;
+hookWidth = 10;
+hookHeight = 30;
 hookTipRatio = [.3, .2];
 hookChamfer = 1;
 
