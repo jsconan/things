@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2018 Jean-Sebastien CONAN
+ * Copyright (c) 2018-2019 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -58,7 +58,7 @@ plateHeight = flat ? plateEdge : max(flangeHeight, plateEdge, gouged ? plateEdge
 module wireHole(wireDiameter, aperturePercent) {
     wireRadius = wireDiameter / 2;
     apertureWidth = wireDiameter * max(0, min(aperturePercent, 100)) / 100;
-    apertureDistance = pythagore(b=apertureWidth / 2, c=wireRadius);
+    apertureDistance = pythagoras(b=apertureWidth / 2, c=wireRadius);
     apertureHeight = wireRadius - apertureDistance;
     aperturePos = apertureDistance + apertureHeight / 2;
 
