@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017 Jean-Sebastien CONAN
+ * Copyright (c) 2017-2019 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -41,12 +41,12 @@ screwDiameter =  2.0;
 
 motorInterval = 46.0;
 ductDiameter  = 37.0;
-ductInterval  = pythagore(motorInterval, motorInterval);
+ductInterval  = pythagoras(motorInterval, motorInterval);
 
 plateThickness =  0.6;
 plateRound     =  1.0;
 plateWidth     = 30.0;
-plateDiag      = pythagore(plateWidth, plateWidth);
+plateDiag      = pythagoras(plateWidth, plateWidth);
 
 cameraLength     = 15.0;
 cameraWidth      =  8.0;

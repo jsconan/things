@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017 Jean-Sebastien CONAN
+ * Copyright (c) 2017-2019 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -60,7 +60,7 @@ pillarInterval = batteryWidth + padding;
 pillarGrooveWidth = armWidth + padding / 2;
 plateWidth = pillarInterval + sqrt(pow(pillarEmbossWidth, 2) / 2) * 2;
 plateRound = pillarThickness;
-armLength = pythagore(plateWidth, plateWidth);
+armLength = pythagoras(plateWidth, plateWidth);
 armOffset = pillarThickness;
 armSize = [(armLength - coreWidth) / 2 + armOffset, pillarWidth];
 armX = coreWidth / 2 - armOffset;

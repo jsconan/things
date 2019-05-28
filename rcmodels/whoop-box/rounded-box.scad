@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017-2019 Jean-Sebastien CONAN
+ * Copyright (c) 2019 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -21,40 +21,28 @@
  */
 
 /**
- * A base skeleton to start designing a thing using the camelSCAD library.
+ * A box to store tiny-whoops.
+ *
+ * Rounded box that will directly contain a tiny-whoop.
+ * This should be printed in a soft and rubber material, like TPU.
  *
  * @author jsconan
  * @version 0.1.0
  */
 
-// As we need to use some shapes, use the right entry point of the library.
-use <lib/camelSCAD/shapes.scad>
-
-// To be able to use the library shared constants we import the definition file.
-include <lib/camelSCAD/core/constants.scad>
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
-
-// Defines the constraints of the print.
-printResolution = 0.2;  // the target layer height
-nozzle = 0.4;           // the size of the print nozzle
-wallDistance = 0.1;     // the distance between the walls of two objects
-
-// Defines the constraints of the object.
-//count = 2;
-
-// Defines the dimensions of the object.
-//length = 10;
-//width = 10;
-//height = 10;
+// Import the project's setup.
+include <util/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
 buildBox(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    union() {
-        // This is where to define the object
-    }
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 10], offset=[0, 0, 5])
+    whoopRoundedBox(
+        whoopType = whoopType,
+        wallThickness = getBoxWallThickness(ROUNDED_BOX),
+        groundThickness = getBoxGroundThickness(ROUNDED_BOX),
+        boxHeight = getBoxHeight(ROUNDED_BOX, whoopType),
+        ductDistance = getBoxWhoopDistance(ROUNDED_BOX)
+    );
 }

@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017-2019 Jean-Sebastien CONAN
+ * Copyright (c) 2019 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -21,40 +21,58 @@
  */
 
 /**
- * A base skeleton to start designing a thing using the camelSCAD library.
+ * A small bracket that will hold a LED strip.
  *
  * @author jsconan
  * @version 0.1.0
  */
 
 // As we need to use some shapes, use the right entry point of the library.
-use <lib/camelSCAD/shapes.scad>
+use <../lib/camelSCAD/shapes.scad>
 
 // To be able to use the library shared constants we import the definition file.
-include <lib/camelSCAD/core/constants.scad>
+include <../lib/camelSCAD/core/constants.scad>
 
 // We will render the object using the specifications of this mode
 renderMode = MODE_PROD;
 
 // Defines the constraints of the print.
-printResolution = 0.2;  // the target layer height
-nozzle = 0.4;           // the size of the print nozzle
-wallDistance = 0.1;     // the distance between the walls of two objects
+printResolution = 0.2;
 
 // Defines the constraints of the object.
-//count = 2;
+ledStripWidth = 8.5;
+ledStripThickness = .5;
+screwDiameter = 3;
+thickness = 1;
+ledStripPadding = 1;
+screwPadding = 1.5;
 
 // Defines the dimensions of the object.
-//length = 10;
-//width = 10;
-//height = 10;
+groove = ceilBy(ledStripThickness, printResolution);
+length = ledStripWidth + screwDiameter + 2 * screwPadding + ledStripPadding;
+width = screwDiameter + 2 * screwPadding;
+height = ceilBy(thickness - ledStripThickness, printResolution) + groove;
 
 // Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
 buildBox(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    union() {
-        // This is where to define the object
+    difference() {
+        // main shape
+        union() {
+            translateX(width / 4) {
+                box(size=[length - width / 2, width, height]);
+            }
+            translateX(-(length - width) / 2) {
+                cylinder(d=width, h=height);
+            }
+        }
+        // make room for the LED strip
+        translate([(length - ledStripWidth) / 2 - ledStripPadding, 0, height - groove]) {
+            box(size=[ledStripWidth, width + ALIGN2, groove + ALIGN]);
+        }
+        // drill the hole for the screw
+        translate([screwPadding - (length - screwDiameter) / 2, 0, -ALIGN]) {
+            cylinder(d=screwDiameter, h=height + ALIGN2);
+        }
     }
 }
