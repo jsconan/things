@@ -24,7 +24,7 @@
  * A case to enclose a flight controller in order to use it for simulator connection.
  *
  * @author jsconan
- * @version 0.1.0
+ * @version 0.2.0
  */
 
 // As we need to use some shapes, use the right entry point of the library.
@@ -39,7 +39,6 @@ renderMode = MODE_PROD;
 // Defines the constraints of the print.
 printResolution = 0.2;  // the target layer height
 nozzle = 0.4;           // the size of the print nozzle
-wallDistance = 0.1;     // the distance between the walls of two objects
 
 // Defines the constraints of the object.
 frameWidth = 30;
@@ -54,16 +53,26 @@ usbWidth = 7.5;
 usbThickness = 2.6;
 usbPosition = 8.2;
 usbAngle = 45;
+bindPegDiameter = 3;
+bindPosition = 8;
+bindHeight = 3;
+bindAngle = 45;
+bindSwitchLength = 6;
+bindSwitchWidth = 9;
+bindSwitchDistance = nozzle;
 ventThickness = 1;
 
 // Defines the dimensions of the object.
 caseWidth = frameWidth + thickness * 2;
+placementDistribution = caseWidth + 5;
 diagonal = pythagoras(frameWidth, frameWidth);
-usbOffset = diagonal / 2 - usbPosition;
-boxChamfer = frameWidth - mountHoleDistance + mountHoleDiameter;
-boxPocket = bottomHeight - frameHeight;
-distribution = caseWidth + 5;
-pillarHeight = bottomHeight + topHeight;
+usbPlugOffset = diagonal / 2 - usbPosition;
+bindPegOffset = diagonal / 2 - bindPosition;
+bindPegHeight = bottomHeight - bindHeight;
+bindSwitchOffset = bindPegOffset + bindPegDiameter / 2;
+boxPocketChamfer = frameWidth - mountHoleDistance + mountHoleDiameter;
+boxPocketHeight = bottomHeight - frameHeight;
+mountPegHeight = bottomHeight + topHeight;
 
 /**
  * Draws the case shape
@@ -136,22 +145,27 @@ module circleVents(diameter, thickness, height) {
 // Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
 buildBox(mode=renderMode) {
-    translateY(-distribution / 2) {
-        distributeGrid(intervalX=[0, distribution, 0]) {
+    translateY(-placementDistribution / 2) {
+        distributeGrid(intervalX=[0, placementDistribution, 0]) {
             // top box
             difference() {
+                // box ouline
                 fcCase(width=frameWidth, height=topHeight + thickness, corner=boxCorner, distance=thickness);
+                // elephant feet counter measure
                 translateZ(-printResolution) {
                     fcCaseRim(width=frameWidth, height=printResolution * 2, corner=boxCorner, rim=nozzle / 2, distance=thickness);
                 }
                 translateZ(thickness) {
-                    chamferedBox([frameWidth, frameWidth, topHeight + thickness], chamfer=boxChamfer);
+                    // box hollow
+                    chamferedBox([frameWidth, frameWidth, topHeight + thickness], chamfer=boxPocketChamfer);
+                    // mount peg drills
                     translate(-[mountHoleDistance, mountHoleDistance, 0] / 2) {
                         repeat2D(countX=2, countY=2, intervalX=[mountHoleDistance, 0, 0], intervalY=[0, mountHoleDistance, 0]) {
                             cylinder(d=mountHoleDiameter, h=topHeight + thickness);
                         }
                     }
                 }
+                // vents
                 translateZ(-thickness) {
                     circleVents(diameter=caseWidth / 2, thickness=ventThickness, height=topHeight);
                 }
@@ -159,27 +173,57 @@ buildBox(mode=renderMode) {
 
             // bottom box
             union() {
+                // mount pegs
                 translate(-[mountHoleDistance, mountHoleDistance, 0] / 2) {
                     repeat2D(countX=2, countY=2, intervalX=[mountHoleDistance, 0, 0], intervalY=[0, mountHoleDistance, 0]) {
-                        bullet([mountHoleDiameter, mountHoleDiameter, pillarHeight], d=mountHoleDiameter / 2);
+                        bullet([mountHoleDiameter, mountHoleDiameter, mountPegHeight], d=mountHoleDiameter / 2);
+                    }
+                }
+                // bind switch peg
+                rotateZ(bindAngle) {
+                    translate([0, -bindPegOffset], thickness) {
+                        bullet([bindPegDiameter, bindPegDiameter, bindPegHeight], d=bindPegDiameter / 2);
                     }
                 }
                 difference() {
+                    // box outline
                     fcCase(width=frameWidth, height=bottomHeight + thickness, corner=boxCorner, distance=thickness);
+                    // elephant feet counter measure
                     translateZ(-printResolution) {
                         fcCaseRim(width=frameWidth, height=printResolution * 2, corner=boxCorner, rim=nozzle / 2, distance=thickness);
                     }
+                    // lower box hollow, will be under the FC
                     translateZ(thickness) {
-                        chamferedBox([frameWidth, frameWidth, boxPocket], chamfer=boxChamfer);
+                        chamferedBox([frameWidth, frameWidth, boxPocketHeight], chamfer=boxPocketChamfer);
                     }
-                    translateZ(thickness + boxPocket) {
+                    // upper box hollow, will be at the FC level
+                    translateZ(thickness + boxPocketHeight) {
                         fcCase(width=frameWidth, height=bottomHeight, corner=boxCorner);
                     }
                     translateZ(-thickness) {
+                        // vents
                         circleVents(diameter=caseWidth / 2, thickness=ventThickness, height=bottomHeight);
+                        // drill for the USB plug
                         rotateZ(usbAngle) {
-                            translateY(usbOffset) {
+                            translateY(usbPlugOffset) {
                                 box([usbWidth, usbThickness, bottomHeight]);
+                            }
+                        }
+                        // bind switch
+                        rotateZ(bindAngle) {
+                            translateY(-bindSwitchOffset) {
+                                negativeExtrude(height=bottomHeight) {
+                                    polygon(
+                                        points = path([
+                                            ["P", bindSwitchWidth / 2, bindSwitchLength],
+                                            ["C", bindSwitchDistance / 2, 180, 0],
+                                            ["C", [bindSwitchWidth / 2 + bindSwitchDistance, bindSwitchLength + bindSwitchDistance], 360, 180],
+                                            ["C", bindSwitchDistance / 2, 180, 0],
+                                            ["C", [bindSwitchWidth / 2, bindSwitchLength], 180, 360],
+                                        ]),
+                                        convexity = 10
+                                    );
+                                }
                             }
                         }
                     }
