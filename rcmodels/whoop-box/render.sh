@@ -33,43 +33,14 @@ boxY=
 drawerX=
 drawerY=
 drawers=
-whoopCountBox=
-whoopCountDrawer=
-drawerCountCupboard=
-
-# script params
-output="output"
-fileext=".scad"
 
 # script config
-scriptPath=$(dirname $0)
+scriptpath=$(dirname $0)
 project=$(pwd)
-dstpath=${project}/${output}
-src=${project}/*${fileext}
+srcpath=${project}
+dstpath=${project}/output
 
-# color codes
-C_ERR="\033[31m"
-C_SEL="\033[32m"
-C_SPE="\033[33m"
-C_CTX="\033[36m"
-C_RST="\033[0m"
-C_MSG="\033[1m"
-C_INF="\033[32m"
-
-# renders a file
-# @param fileName
-render() {
-    dst="${dstpath}/${whoop}-$(basename $1 ${fileext}).stl"
-    echo -e "${C_RST}Rendering of ${C_SEL}$(basename $1)${C_RST} to ${C_SEL}${dst}"
-    openscad --render -o "${dst}" "$1" \
-        -D "renderMode=\"prod\"" \
-        -D "whoopType=\"${whoop}\"" \
-        -D "${whoopCountBox}" \
-        -D "${whoopCountDrawer}" \
-        -D "${drawerCountCupboard}"
-}
-
-echo -e "${C_RST}"
+source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
 
 # load parameters
 while (( "$#" )); do
@@ -140,87 +111,21 @@ while (( "$#" )); do
         *)
             ls $1 >/dev/null 2>&1
             if [ "$?" == "0" ]; then
-                src=$1
+                srcpath=$1
             else
-                echo -e "${C_ERR}"
-                echo -e "${C_ERR}Unknown parameter ${1}${C_RST}"
-                echo -e "${C_RST}"
-                exit 1
+                printerror "Unknown parameter ${1}"
             fi
         ;;
     esac
     shift
 done
 
-# compose value for the number of tiny-whoops per container
-if [ "${boxX}" != "" ] || [ "${boxY}" != "" ]; then
-    if [ "${boxX}" == "" ]; then
-        boxX="1"
-    fi
-    if [ "${boxY}" == "" ]; then
-        boxY="1"
-    fi
-    whoopCountBox="whoopCountBox=[${boxX}, ${boxY}]"
-fi
-
-# compose value for the number of tiny-whoops per drawer
-if [ "${drawerX}" != "" ] || [ "${drawerY}" != "" ]; then
-    if [ "${drawerX}" == "" ]; then
-        drawerX="1"
-    fi
-    if [ "${drawerY}" == "" ]; then
-        drawerY="1"
-    fi
-    whoopCountDrawer="whoopCountDrawer=[${drawerX}, ${drawerY}]"
-fi
-
-# compose value for the number of drawers
-if [ "${drawers}" != "" ]; then
-    drawerCountCupboard="drawerCountCupboard=${drawers}"
-fi
-
-# create the output folder if needed
-if [ ! -d "${dstpath}" ]; then
-    echo -e "${C_SEL}Create output folder.${C_RST}"
-    mkdir -p "${dstpath}" >/dev/null
-
-    if [ ! -d "${dstpath}" ]; then
-        echo -e "${C_ERR}"
-        echo "Cannot create output folder!"
-        echo -e "${C_RST}"
-        exit 1
-    fi
-fi
-
 # check OpenSCAD
-echo -e "Detecting ${C_SPE}OpenSCAD${C_RST}..."
-openscad -v >/dev/null 2>&1
-if [ "$?" != "0" ]; then
-    echo -e "${C_ERR}"
-    echo "It seems OpenSCAD has not been installed on your system."
-    echo "Or perhaps is it just not reachable..."
-    echo "Have you placed it in your environment PATH variable?"
-    echo -e "${C_RST}"
-    exit 3
-fi
-
-echo -e "${C_SPE}OpenSCAD${C_RST} has been detected."
-echo -e "${C_RST}"
-echo -e "${C_RST}Processing rendering from ${C_CTX}${project}"
-echo -e "${C_RST}"
+scadcheck
 
 # render the files, if exist
-ls ${src} >/dev/null 2>&1
-if [ "$?" == "0" ]; then
-    for filename in ${src}; do
-        render "${filename}"
-    done
-else
-    echo -e "${C_ERR}"
-    echo "There is nothing to render!"
-    echo -e "${C_RST}"
-    exit 1
-fi
-
-echo -e "${C_RST}"
-echo "Done!"
+scadtostlall "${srcpath}" "${dstpath}" "${whoop}" \
+    "whoopType=\"${whoop}\"" \
+    "$(vectorif "whoopCountBox" ${boxX} ${boxY})" \
+    "$(vectorif "whoopCountDrawer" ${drawerX} ${drawerY})" \
+    "$(varif "drawerCountCupboard" ${drawers})"
