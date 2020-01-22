@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2019 Jean-Sebastien CONAN
+ * Copyright (c) 2019-2020 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -24,7 +24,7 @@
  * A spool holder that mounts on a cylindric food dehydratator.
  *
  * @author jsconan
- * @version 0.1.0
+ * @version 0.2.0
  */
 
 // As we need to use some shapes, use the right entry point of the library.
@@ -84,25 +84,22 @@ buildBox(mode=renderMode) {
                 ["H", mountWall],
 
                 // plate side
-                ["V", plateHeight]
-            ], flatten([
-                for(i=[0:plateRidgeCount - 1]) [
-                    ["L", -plateRidgeInterval * and(i, 1), 0],
-                    ["L", - plateRidgeX, plateRidgeY],
-                    ["H", - plateRidgeWidth + plateRidgeX * 2],
-                    ["L", - plateRidgeX, -plateRidgeY]
-                ]
-            ]), [
+                ["V", plateHeight],
+                ["R", plateRidgeCount, [
+                    ["L", -plateRidgeX, plateRidgeY],
+                    ["H", -plateRidgeWidth + plateRidgeX * 2],
+                    ["L", -plateRidgeX, -plateRidgeY],
+                    ["L", -plateRidgeInterval, 0]
+                ]],
+
                 // spool hole side
                 ["P", spoolHoleInnerDiameter / 2, plateHeight],
-            ], flatten([
-                for(i=[1:spoolHoleRidgeCount]) [
-                    ["L", 0, spoolHoleRidgeInterval * and(i, 1)],
+                ["R", spoolHoleRidgeCount, [
+                    ["L", 0, spoolHoleRidgeInterval],
                     ["L", spoolHoleRidgeX, spoolHoleRidgeY],
                     ["V", spoolHoleRidgeWidth - spoolHoleRidgeY * 2],
                     ["L", -spoolHoleRidgeX, spoolHoleRidgeY],
-                ]
-            ]), [
+                ]],
                 ["L", -spoolHoleChamfer, spoolHoleChamfer],
                 ["H", -spoolHoleInnerDiameter / 2 + spoolHoleChamfer],
             ])),
