@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2019 Jean-Sebastien CONAN
+ * Copyright (c) 2019-2020 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -24,7 +24,7 @@
  * A parametric holder for triominos.
  *
  * @author jsconan
- * @version 0.1.0
+ * @version 0.2.0
  */
 
 // As we need to use some shapes, use the right entry point of the library.
@@ -70,23 +70,20 @@ boardInterval = pieceHeight * 1.3;
 module standBoardEdge(width, height, thickness, count, distance=0) {
     polygon(
         points=outline(points=path(
-            p=concat([
+            p=[
                 ["P", 0, 0],
-                ["H", thickness]
-            ], flatten([
-                for(i = [0 : count - 1]) [
+                ["H", thickness],
+                ["R", count, [
                     ["H", width + thickness],
                     ["V", height]
-                ]
-            ]), [
+                ]],
                 ["V", thickness],
-                ["H", -thickness]
-            ], flatten([
-                for(i = [0 : count - 1]) [
+                ["H", -thickness],
+                ["R", count, [
                     ["V", -height],
                     ["H", -width - thickness]
-                ]
-            ]))
+                ]]
+            ]
         ), distance=distance),
         convexity=10
     );
@@ -185,8 +182,6 @@ module standBoard(pieceSize, count, thickness, padding) {
         }
     }
 }
-
-
 
 // Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
