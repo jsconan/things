@@ -87,7 +87,7 @@ done
 scadcheck
 
 # render the files, if exist
-scadtostlall "${srcpath}" "${dstpath}" "" \
+scadrenderall "${srcpath}" "${dstpath}" "" \
     "$(varif "chunkSize" ${chunkSize})" \
     "$(varif "barrierHeight" ${barrierHeight})" \
     "$(varif "heightWithFasteners" ${heightWithFasteners})"
