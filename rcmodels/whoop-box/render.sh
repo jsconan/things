@@ -124,7 +124,7 @@ done
 scadcheck
 
 # render the files, if exist
-scadrenderall "${srcpath}" "${dstpath}" "${whoop}" \
+scadrenderall "${srcpath}" "${dstpath}" "${whoop}" "" \
     "whoopType=\"${whoop}\"" \
     "$(vectorif "whoopCountBox" ${boxX} ${boxY})" \
     "$(vectorif "whoopCountDrawer" ${drawerX} ${drawerY})" \
