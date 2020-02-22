@@ -58,7 +58,7 @@ source "${scriptpath}/../../lib/camelSCAD/scripts/utils.sh"
 # @param right - Right oriented or left oriented
 renderpath() {
     local rightOriented=$3
-    scadrenderall "$1" "$2" "" \
+    scadrenderall "$1" "$2" "" "" \
         "$(varif "trackSectionSize" ${trackSectionSize})" \
         "$(varif "trackLaneWidth" ${trackLaneWidth})" \
         "$(varif "trackRadius" ${trackRadius})" \
