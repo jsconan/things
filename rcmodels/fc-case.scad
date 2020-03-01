@@ -181,7 +181,7 @@ buildBox(mode=renderMode) {
                 }
                 // bind switch peg
                 rotateZ(bindAngle) {
-                    translate([0, -bindPegOffset], thickness) {
+                    translate([0, -bindPegOffset, thickness]) {
                         bullet([bindPegDiameter, bindPegDiameter, bindPegHeight], d=bindPegDiameter / 2);
                     }
                 }
