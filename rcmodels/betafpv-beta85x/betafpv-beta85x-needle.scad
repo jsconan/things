@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2019 Jean-Sebastien CONAN
+ * Copyright (c) 2019-2020 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -48,10 +48,12 @@ handleLength = 60;
 // Defines the dimensions of the object
 needleSide = (handleWidth - needleWidth) / 2;
 
-// Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
-//sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 2], offset=[0, 0, 2])
-buildBox(mode=renderMode) {
+buildBox(center=true);
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 2], offset=[0, 0, 2])
     negativeExtrude(needleThickness) {
         polygon(
             points=path([

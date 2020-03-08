@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017 Jean-Sebastien CONAN
+ * Copyright (c) 2017-2020 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -66,9 +66,11 @@ overallLength = thickness + (batteryThickness + thickness) * batteryCountX;
 overallWidth = thickness + (batteryWidth + thickness) * batteryCountY;
 overallHeight = thickness + batteryDepth;
 
-// Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
-buildBox(mode=renderMode) {
+buildBox(center=true);
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
     //sample(size=[overallLength, overallWidth, 5], offset=[0,0,batteryDepth-5])
     difference() {
         cushion([overallLength, overallWidth, overallHeight], d=outerRound);

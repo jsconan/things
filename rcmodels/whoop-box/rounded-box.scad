@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2019 Jean-Sebastien CONAN
+ * Copyright (c) 2019-2020 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -33,9 +33,11 @@
 // Import the project's setup.
 include <util/setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
-buildBox(mode=renderMode) {
+buildBox(center=true);
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 10], offset=[0, 0, 5])
     whoopRoundedBox(
