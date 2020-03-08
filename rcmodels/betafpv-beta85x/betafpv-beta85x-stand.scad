@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2019 Jean-Sebastien CONAN
+ * Copyright (c) 2019-2020 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -49,10 +49,12 @@ armLength = (motorDistance - plateDiameter) / 2 + pillarDiameter;
 platformHeight = platformDiameter - pillarDiameter;
 pillarBottom = pillarHeight - platformHeight;
 
-// Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
+buildBox(center=true);
+
+// Sets the minimum facet angle and size using the defined render mode.
 //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 2], offset=[0, 0, 2])
-buildBox(mode=renderMode) {
+applyMode(mode=renderMode) {
     // the base
     negativeExtrude(height=plateThickness) {
         ring(d=plateDiameter, w=pillarDiameter);

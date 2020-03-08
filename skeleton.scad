@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017-2019 Jean-Sebastien CONAN
+ * Copyright (c) 2017-2020 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -39,7 +39,7 @@ renderMode = MODE_PROD;
 // Defines the constraints of the print.
 printResolution = 0.2;  // the target layer height
 nozzle = 0.4;           // the size of the print nozzle
-wallDistance = 0.1;     // the distance between the walls of two objects
+printTolerance = 0.1;   // The print tolerance when pieces need to be assembled
 
 // Defines the constraints of the object.
 //count = 2;
@@ -49,9 +49,11 @@ wallDistance = 0.1;     // the distance between the walls of two objects
 //width = 10;
 //height = 10;
 
-// Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
-buildBox(mode=renderMode) {
+buildBox(center=true);
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
     union() {
