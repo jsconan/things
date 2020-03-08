@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017 Jean-Sebastien CONAN
+ * Copyright (c) 2017-2020 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -53,9 +53,11 @@ bladeSize = [bladeLength, bladeWidth, bladeThickness];
 handleSize = [handleLength, handleWidth, bladeThickness];
 handleRound = handleWidth;
 
-// Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
-buildBox(mode=renderMode) {
+buildBox(center=true);
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
     cushion(size=bladeSize, r=bladeRound);
     translateX(handleLength / 2) {
         cushion(size=handleSize, r=handleRound);

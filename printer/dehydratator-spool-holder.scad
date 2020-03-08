@@ -69,9 +69,11 @@ spoolHoleRidgeInterval = (spoolHoleHeight - spoolHoleRidgeWidth) / spoolHoleRidg
 spoolHoleRidgeX = spoolHoleRidgeHeight;
 spoolHoleRidgeY = spoolHoleRidgeWidth / 2 * cos(60);
 
-// Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
-buildBox(mode=renderMode) {
+buildBox(center=true);
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
     //sample(size=vadd([plateDiameter, plateDiameter, 8], ALIGN2), offset=[0, 0, -ALIGN])
     //sample(size=vadd([plateDiameter, plateDiameter, 8], ALIGN2), offset=[0, 0, plateHeight+spoolHoleHeight-8-ALIGN])
     rotate_extrude() {

@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017 Jean-Sebastien CONAN
+ * Copyright (c) 2017-2020 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -58,9 +58,11 @@ even = true;
 offset = offsetHexGrid(size=outerCell, count=count, pointy=pointy, linear=linear, even=even);
 size = sizeHexGrid(size=outerCell, count=count, pointy=pointy, linear=linear, even=even);
 
-// Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
-buildBox(mode=renderMode) {
+buildBox(center=true);
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
     //sample(size=apply3D(size, z=5), offset=[0,0,outerHeight-5])
     for(hex = buildHexGrid(count=count, linear=linear)) {
         translate(offset + coordHexCell(hex=hex, size=outerCell, linear=linear, even=even, pointy=pointy)) {

@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017-2019 Jean-Sebastien CONAN
+ * Copyright (c) 2017-2020 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -85,9 +85,11 @@ module triangle(side) {
     }
 }
 
-// Sets the minimum facet angle and size using the defined render mode.
 // Displays a build box visualization to preview the printer area.
-buildBox(mode=renderMode) {
+buildBox(center=true);
+
+// Sets the minimum facet angle and size using the defined render mode.
+applyMode(mode=renderMode) {
     difference() {
         union() {
             // Draws the plate
