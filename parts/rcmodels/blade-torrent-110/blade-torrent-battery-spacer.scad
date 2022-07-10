@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017-2020 Jean-Sebastien CONAN
+ * Copyright (c) 2017-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -21,79 +21,70 @@
  */
 
 /**
- * A landing gear for the Blade Torrent 110 FPV.
- * This thing is very experimental.
- * For now the legs break each time the quad is landing or just flying too close to the ground...
+ * A battery spacer for the Blade Torrent 110 FPV.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
-// As we need to use some shapes, use the right entry point of the library
-use <../../lib/camelSCAD/shapes.scad>
-include <../../lib/camelSCAD/core/constants.scad>
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
-
-// Defines the constraints of the print
-printResolution = 0.2;
+// Import the project's setup.
+include <../../../config/setup.scad>
 
 // Defines the constraints of the object
 coreWidth = 30;
 armWidth = 11;
-gearAngle = 10;
+velcroThickness = 2.5;
 
-batteryLength = 56;
-batteryWidth = 33;
-batteryHeight = 17;
+velcroInUse = true;
+velcroPassthrough = true;
 
 screwHeadDiameter = 3.75;
 screwHeadThickness = 1.7;
-screwInterval = 25.5;
+screwInterval = 25;
 
 beltWidth = 11;
-beltThickness = 1.2;
+beltThickness = 1.4;
 beltHoleInterval = 21;
 beltHoleLength = 16;
 beltHoleWidth = 3;
 
 // Defines the dimensions of the object
-legSkew = sin(gearAngle);
-legHeight = roundBy(batteryHeight + screwHeadThickness + 10, printResolution);
-legDiameterBase = armWidth / 2;
-legDiameterEdge = legDiameterBase / 2;
-legInterval = max(batteryWidth, coreWidth) + armWidth;
-
-plateThickness = roundBy(screwHeadThickness, printResolution);
-plateOuterWidth = legInterval + legDiameterBase;
+velcroPlateSupport = layerHeight;
+velcroPlateThickness = velcroThickness + (velcroPassthrough ? 0 : velcroPlateSupport);
+plateOuterRound = armWidth / 2;
+plateThickness = layerAligned(max(screwHeadThickness, velcroInUse ? velcroPlateThickness : 0));
+plateOuterWidth = coreWidth + plateOuterRound;
 plateInnerWidth = coreWidth;
-plateArmWidth = armWidth;
-plateArmPos = sqrt(pow(plateArmWidth, 2) * 2) / 2;
+
+armOuterX = plateOuterWidth / 2 - plateOuterRound / 2 + ALIGN;
+armOuterY = plateOuterWidth / 2 + ALIGN;
+armInnerX = plateInnerWidth / 2 - sqrt(pow(armWidth, 2) * 2) / 2;
+armInnerY = plateInnerWidth / 2;
 
 screwHoleDiameter = screwHeadDiameter + 1;
 screwHoleIntervalX = screwInterval;
 screwHoleIntervalY = screwInterval;
 
-beltGrooveDepth = roundBy(beltThickness, printResolution);
+beltGrooveDepth = layerAligned(beltThickness);
 beltGrooveLength = beltWidth;
 beltGrooveWidth = (plateInnerWidth - beltHoleInterval) / 2;
 
 meshSpace = 1;
-meshCountX = 4;
-meshCountY = 3;
-meshLength = floor(plateInnerWidth - 2 * plateThickness);
-meshWidth = floor(beltHoleInterval - beltHoleWidth - 2 * plateThickness);
+meshCount = [3, 4];
+meshLength = floor(plateInnerWidth - 2 * (plateThickness - meshSpace));
+meshWidth = floor(beltHoleInterval - beltHoleWidth - 2 * (plateThickness - meshSpace));
 
-// Displays a build box visualization to preview the printer area.
-buildBox(center=true);
+velcroLength = floor(plateInnerWidth - 2 * screwHeadThickness);
+velcroWidth = floor(beltHoleInterval - beltHoleWidth - 2 * screwHeadThickness);
+
+echo("Plate thickness:", plateThickness);
+echo("Velcro place:", [velcroLength, velcroWidth]);
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
     // build the plate
     difference() {
         // the raw plate
-        cushion(l=plateOuterWidth, w=plateOuterWidth, h=plateThickness, d=legDiameterBase);
+        cushion(l=plateOuterWidth, w=plateOuterWidth, h=plateThickness, d=plateOuterRound);
 
         // the belt groove
         repeatMirror(count=2, axis=[0, 1, 0]) {
@@ -129,33 +120,31 @@ applyMode(mode=renderMode) {
 
             // cut the arms
             repeatRotate(count=4) {
-                outerX = plateOuterWidth / 2 - legDiameterBase / 2 + ALIGN;
-                outerY = plateOuterWidth / 2 + ALIGN;
-                innerX = plateInnerWidth / 2 - plateArmPos;
-                innerY = plateInnerWidth / 2;
-
                 polygon(
                     points = [
-                        [outerX, outerY],
-                        [-outerX, outerY],
-                        [-innerX, innerY],
-                        [innerX, innerY]
+                        [armOuterX, armOuterY],
+                        [-armOuterX, armOuterY],
+                        [-armInnerX, armInnerY],
+                        [armInnerX, armInnerY]
                     ],
                     convexity = 10
                 );
             }
-
-            // drill the mesh
-            rotateZ(90) {
-                mesh([meshWidth, meshLength], count=[meshCountY, meshCountX], gap=meshSpace);
-            }
         }
-    }
-    // add the legs
-    repeatMirror2D() {
-        translate([legInterval, legInterval, 0] / 2) {
-            transform(scaleXZ=legSkew, scaleYZ=legSkew) {
-                cylinder(d1=legDiameterBase, d2=legDiameterEdge, h=legHeight);
+
+        if (velcroInUse) {
+            // place for the velcro
+            translateZ(velcroPassthrough ? 0 : velcroPlateSupport) {
+                negativeExtrude(plateThickness, direction=velcroPassthrough ? 2 : 1) {
+                    roundedRectangle([velcroLength, velcroWidth], d=1);
+                }
+            }
+        } else {
+            // honeycomb mesh
+            negativeExtrude(plateThickness) {
+                rotateZ(90) {
+                    mesh([meshWidth, meshLength], count=meshCount, gap=meshSpace, linear=true, pointy=false);
+                }
             }
         }
     }

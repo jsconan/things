@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2019-2020 Jean-Sebastien CONAN
+ * Copyright (c) 2019-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -24,17 +24,10 @@
  * A stand for the BetaFPV Beta85X.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
-// As we need to use some shapes, use the right entry point of the library
-include <../../lib/camelSCAD/shapes.scad>
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
-
-// Defines the constraints of the print
-printResolution = 0.2;
+// Import the project's setup.
+include <../../../config/setup.scad>
 
 // Defines the constraints of the object
 motorDistance = 85;
@@ -48,9 +41,6 @@ plateThickness = 3;
 armLength = (motorDistance - plateDiameter) / 2 + pillarDiameter;
 platformHeight = platformDiameter - pillarDiameter;
 pillarBottom = pillarHeight - platformHeight;
-
-// Displays a build box visualization to preview the printer area.
-buildBox(center=true);
 
 // Sets the minimum facet angle and size using the defined render mode.
 //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 2], offset=[0, 0, 2])

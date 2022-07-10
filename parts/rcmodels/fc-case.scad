@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2019-2020 Jean-Sebastien CONAN
+ * Copyright (c) 2019-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -24,21 +24,10 @@
  * A case to enclose a flight controller in order to use it for simulator connection.
  *
  * @author jsconan
- * @version 0.2.0
  */
 
-// As we need to use some shapes, use the right entry point of the library.
-use <../lib/camelSCAD/shapes.scad>
-
-// To be able to use the library shared constants we import the definition file.
-include <../lib/camelSCAD/core/constants.scad>
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
-
-// Defines the constraints of the print.
-printResolution = 0.2;  // the target layer height
-nozzle = 0.4;           // the size of the print nozzle
+// Import the project's setup.
+include <../../config/setup.scad>
 
 // Defines the constraints of the object.
 frameWidth = 30;
@@ -59,7 +48,7 @@ bindHeight = 3;
 bindAngle = 45;
 bindSwitchLength = 6;
 bindSwitchWidth = 9;
-bindSwitchDistance = nozzle;
+bindSwitchDistance = nozzleWidth;
 ventThickness = 1;
 
 // Defines the dimensions of the object.
@@ -127,7 +116,7 @@ module fcCaseRim(width, height, corner, rim, distance = 0) {
  * @param Number height
  */
 module circleVents(diameter, thickness, height) {
-    interval = thickness + roundBy(thickness, nozzle);
+    interval = thickness + nozzleAligned(thickness);
     radius = diameter / 2;
     count = floor(radius / interval);
     rotateZ(-45) {
@@ -142,9 +131,6 @@ module circleVents(diameter, thickness, height) {
     }
 }
 
-// Displays a build box visualization to preview the printer area.
-buildBox(center=true);
-
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
     translateY(-placementDistribution / 2) {
@@ -154,8 +140,8 @@ applyMode(mode=renderMode) {
                 // box ouline
                 fcCase(width=frameWidth, height=topHeight + thickness, corner=boxCorner, distance=thickness);
                 // elephant feet counter measure
-                translateZ(-printResolution) {
-                    fcCaseRim(width=frameWidth, height=printResolution * 2, corner=boxCorner, rim=nozzle / 2, distance=thickness);
+                translateZ(-layerHeight) {
+                    fcCaseRim(width=frameWidth, height=layers(2), corner=boxCorner, rim=shells(.5), distance=thickness);
                 }
                 translateZ(thickness) {
                     // box hollow
@@ -191,8 +177,8 @@ applyMode(mode=renderMode) {
                     // box outline
                     fcCase(width=frameWidth, height=bottomHeight + thickness, corner=boxCorner, distance=thickness);
                     // elephant feet counter measure
-                    translateZ(-printResolution) {
-                        fcCaseRim(width=frameWidth, height=printResolution * 2, corner=boxCorner, rim=nozzle / 2, distance=thickness);
+                    translateZ(-layerHeight) {
+                        fcCaseRim(width=frameWidth, height=layers(2), corner=boxCorner, rim=shells(.5), distance=thickness);
                     }
                     // lower box hollow, will be under the FC
                     translateZ(thickness) {
