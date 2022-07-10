@@ -2,7 +2,8 @@
 *.log
 
 # Results
-scripts/output
+output
+dist
 *.csg
 *.csv
 
