@@ -21,31 +21,30 @@
  */
 
 /**
- * A base skeleton to start designing a thing using the camelSCAD library.
+ * A parametric eyelet tube.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
 // Import the project's setup.
-include <config/setup.scad>
+include <../../config/setup.scad>
 
-// Defines the constraints of the object.
-count = 2;
-
-// Defines the dimensions of the object.
-length = 10;
-width = 10;
-height = 10;
-
-// Displays a build box visualization to preview the printer area.
-buildBox(center=true);
+// Defines the dimensions of the object
+thickness = 1;
+rimDiameter = 40;
+holeDiameter = 30;
+tubeDiameter = holeDiameter + 2 * thickness;
+tubeDepth = 5;
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    union() {
-        // This is where to define the object
+    difference() {
+        union() {
+            pipe(d=tubeDiameter, w=thickness, h=tubeDepth + thickness);
+            cylinder(d=rimDiameter, h=thickness);
+        }
+        translateZ(-ALIGN) {
+            cylinder(d1=tubeDiameter, d2=holeDiameter, h=thickness + ALIGN2);
+        }
     }
 }
