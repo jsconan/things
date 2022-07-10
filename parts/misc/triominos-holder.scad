@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2019-2020 Jean-Sebastien CONAN
+ * Copyright (c) 2019-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -24,22 +24,10 @@
  * A parametric holder for triominos.
  *
  * @author jsconan
- * @version 0.2.0
  */
 
-// As we need to use some shapes, use the right entry point of the library.
-use <../lib/camelSCAD/shapes.scad>
-
-// To be able to use the library shared constants we import the definition file.
-include <../lib/camelSCAD/core/constants.scad>
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
-
-// Defines the constraints of the print.
-printResolution = 0.2;  // the target layer height
-nozzle = 0.4;           // the size of the print nozzle
-wallDistance = 0.1;     // the distance between the walls of two objects
+// Import the project's setup.
+include <../../config/setup.scad>
 
 // Defines the constraints of the object.
 // - size of a piece
@@ -51,7 +39,7 @@ pieceInterval = 1;
 piecesByBoard = 5;
 boardThickness = 2;
 // size of the groove in which the board will be plugged
-grooveWall = 3 * nozzle;
+grooveWall = shells(3);
 grooveDepth = 2;
 // - constraints of the holder
 boardCount = 2;
@@ -152,12 +140,12 @@ module standBoardSide(width, height, thickness, wall, depth, angle, count) {
 module standBoard(pieceSize, count, thickness, padding) {
     pieceSize = vector3D(pieceSize);
     half = thickness / 2;
-    depth = roundBy(half, printResolution);
+    depth = layerAligned(half);
 
-    grooveDepth = depth + printResolution;
+    grooveDepth = depth + layerHeight;
     grooveWidth = half;
 
-    ridgeHeight = depth - printResolution;
+    ridgeHeight = depth - layerHeight;
     ridgeWidth = half;
 
     outerLength = pieceSize[0] * count + padding * 2;
@@ -182,9 +170,6 @@ module standBoard(pieceSize, count, thickness, padding) {
         }
     }
 }
-
-// Displays a build box visualization to preview the printer area.
-buildBox(center=true);
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {

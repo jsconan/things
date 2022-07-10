@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2020 Jean-Sebastien CONAN
+ * Copyright (c) 2017-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -21,26 +21,30 @@
  */
 
 /**
- * A curtain rod system.
- *
- * A sleeve that will cover the link area of an assembled curtain rod.
+ * A parametric eyelet tube.
  *
  * @author jsconan
  */
 
 // Import the project's setup.
-include <config/setup.scad>
+include <../../config/setup.scad>
+
+// Defines the dimensions of the object
+thickness = 1;
+rimDiameter = 40;
+holeDiameter = 30;
+tubeDiameter = holeDiameter + 2 * thickness;
+tubeDepth = 5;
 
 // Sets the minimum facet angle and size using the defined render mode.
-// Displays a build box visualization to preview the printer area.
 applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    rodSleeve(
-        diameter = rodDiameter,
-        width = rodWidth,
-        thickness = rodThickness,
-        sleeveLength = rodSleeveLength,
-        sleeveThickness = rodSleeveThickness
-    );
+    difference() {
+        union() {
+            pipe(d=tubeDiameter, w=thickness, h=tubeDepth + thickness);
+            cylinder(d=rimDiameter, h=thickness);
+        }
+        translateZ(-ALIGN) {
+            cylinder(d1=tubeDiameter, d2=holeDiameter, h=thickness + ALIGN2);
+        }
+    }
 }

@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017-2020 Jean-Sebastien CONAN
+ * Copyright (c) 2017-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -24,19 +24,10 @@
  * A parametric honeycomb box
  *
  * @author jsconan
- * @version 0.1.0
  */
 
-// As we need to use some shapes, use the right entry point of the library
-use <../lib/camelSCAD/shapes.scad>
-include <../lib/camelSCAD/core/constants.scad>
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
-
-// Defines the constraints of the print
-printResolution = 0.2;
-printWidth = 0.4;
+// Import the project's setup.
+include <../../config/setup.scad>
 
 // Defines the constraints of the object
 cellCountX = 6;
@@ -46,8 +37,8 @@ cellLength = 13;
 cellWidth = 13;
 
 // Defines the dimensions of the object
-wall = roundBy(.5, printWidth);
-base = roundBy(.7, printResolution);
+wall = nozzleAligned(.5);
+base = layerAligned(.7);
 count = divisor2D([cellCountX, cellCountY]);
 innerCell = [cellLength, cellWidth] / cos(30);
 outerCell = vadd(innerCell, wall);
@@ -57,9 +48,6 @@ linear = true;
 even = true;
 offset = offsetHexGrid(size=outerCell, count=count, pointy=pointy, linear=linear, even=even);
 size = sizeHexGrid(size=outerCell, count=count, pointy=pointy, linear=linear, even=even);
-
-// Displays a build box visualization to preview the printer area.
-buildBox(center=true);
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {

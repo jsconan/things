@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2020 Jean-Sebastien CONAN
+ * Copyright (c) 2020-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -23,18 +23,24 @@
 /**
  * A curtain rod system.
  *
- * Setup the context.
+ * A sleeve that will cover the link area of an assembled curtain rod.
  *
  * @author jsconan
  */
 
-// As we need to use some shapes, use the right entry point of the library.
-include <../../../lib/camelSCAD/shapes.scad>
+// Import the project's setup.
+include <../../../config/misc/rod/setup.scad>
 
-// Then we need the config for the project, as well as the related functions
-include <config.scad>
-
-// Finally, include the shapes
-include <../shapes/rod.scad>
-include <../shapes/stopper.scad>
-include <../shapes/bracket.scad>
+// Sets the minimum facet angle and size using the defined render mode.
+// Displays a build box visualization to preview the printer area.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    rodSleeve(
+        diameter = rodDiameter,
+        width = rodWidth,
+        thickness = rodThickness,
+        sleeveLength = rodSleeveLength,
+        sleeveThickness = rodSleeveThickness
+    );
+}

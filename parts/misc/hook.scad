@@ -24,17 +24,10 @@
  * A hook that fits onto a cabinet door.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
-// As we need to use some shapes, use the right entry point of the library.
-use <../lib/camelSCAD/shapes.scad>
-
-// To be able to use the library shared constants we import the definition file.
-include <../lib/camelSCAD/core/constants.scad>
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
+// Import the project's setup.
+include <../../config/setup.scad>
 
 // Defines the constraints of the object.
 doorThickness = 16;
@@ -53,7 +46,6 @@ flangeOuterHeight = flangeInnerHeight + thickness - radius;
 doorInnerThickness = doorThickness;
 doorOuterThickness = doorInnerThickness + (thickness - radius) * 2;
 hookInnerHeight = hookHeight - radius;
-hookOuterHeight = hookOuterHeight;
 hookInnerRadius = hookDepth / 2;
 hookOuterRadius = hookInnerRadius + thickness;
 innerLength = length - hookOuterRadius - thickness;
@@ -81,7 +73,7 @@ applyMode(mode=renderMode) {
                 ["C", hookInnerRadius, 180, 360],
             ]), convexity = 10);
         }
-        
+
         translate([thickness, 0, width] / 2) {
             rotateY(90) {
                 translateX(-width / 2) {
@@ -92,5 +84,5 @@ applyMode(mode=renderMode) {
                 }
             }
         }
-    }    
+    }
 }

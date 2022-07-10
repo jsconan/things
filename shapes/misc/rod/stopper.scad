@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2020 Jean-Sebastien CONAN
+ * Copyright (c) 2020-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *

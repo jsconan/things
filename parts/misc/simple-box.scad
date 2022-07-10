@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017 Jean-Sebastien CONAN
+ * Copyright (c) 2017-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -24,12 +24,10 @@
  * A simple parametric box with rounded corners.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
-// As we need to use some shapes, use the right entry point of the library
-use <../lib/camelSCAD/shapes.scad>
-include <../lib/camelSCAD/core/constants.scad>
+// Import the project's setup.
+include <../../config/setup.scad>
 
 /**
  * Renders a rounded box at the origin.
@@ -72,9 +70,6 @@ module simpleBox(size, thickness, radius) {
     }
 
 }
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
 
 // Defines the dimensions of the box
 length = 100;

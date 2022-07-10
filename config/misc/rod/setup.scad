@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2020 Jean-Sebastien CONAN
+ * Copyright (c) 2020-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -23,23 +23,18 @@
 /**
  * A curtain rod system.
  *
- * An assembled curtain rod
+ * Setup the context.
  *
  * @author jsconan
  */
 
 // Import the project's setup.
-include <config/setup.scad>
+include <../../setup.scad>
 
-// Sets the minimum facet angle and size using the defined render mode.
-// Displays a build box visualization to preview the printer area.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    rod(
-        diameter = rodDiameter,
-        length = rodLength,
-        width = rodWidth,
-        thickness = rodThickness
-    );
-}
+// Then we need the config for the project, as well as the related functions
+include <config.scad>
+
+// Finally, include the shapes
+include <../../../shapes/misc/rod/rod.scad>
+include <../../../shapes/misc/rod/stopper.scad>
+include <../../../shapes/misc/rod/bracket.scad>

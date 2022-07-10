@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2019-2020 Jean-Sebastien CONAN
+ * Copyright (c) 2019-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -24,22 +24,10 @@
  * A fastener to attach a cover door to a fridge
  *
  * @author jsconan
- * @version 0.1.0
  */
 
-// As we need to use some shapes, use the right entry point of the library.
-use <../lib/camelSCAD/shapes.scad>
-
-// To be able to use the library shared constants we import the definition file.
-include <../lib/camelSCAD/core/constants.scad>
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
-
-// Defines the constraints of the print.
-printResolution = 0.2;  // the target layer height
-nozzle = 0.4;           // the size of the print nozzle
-wallDistance = 0.1;     // the distance between the walls of two objects
+// Import the project's setup.
+include <../../config/setup.scad>
 
 /**
  * Draws the shape of a fastener to attach a cover door to a fridge.

@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017 Jean-Sebastien CONAN
+ * Copyright (c) 2017-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -24,12 +24,10 @@
  * A parametric card holder, that can also be utilized as a target for darts gun.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
-// As we need to use some shapes, use the right entry point of the library
-use <../lib/camelSCAD/shapes.scad>
-include <../lib/camelSCAD/core/constants.scad>
+// Import the project's setup.
+include <../../config/setup.scad>
 
 // Defines the dimensions of the object
 length = 60;
@@ -45,9 +43,6 @@ mountHeight = mountWidth;
 
 // Computes the size of the wedge that will drill the card slot in the card mount
 wedgeAngle = atan2(slotWidth / 2, mountHeight) * 2;
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(renderMode) {

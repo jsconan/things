@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2020 Jean-Sebastien CONAN
+ * Copyright (c) 2020-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -28,15 +28,7 @@
  * @author jsconan
  */
 
- projectVersion = "0.1.0";
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
-
-// Defines the constraints of the printer.
-printResolution = 0.2;  // The target layer height
-nozzleWidth = 0.4;      // The size of the printer's nozzle
-printTolerance = 0.1;   // The print tolerance when pieces need to be assembled
+projectVersion = "0.1.0";
 
 // The dimensions and constraints of the elements
 panelThickness = 23;            // The thickness of the panel the bracket must fit

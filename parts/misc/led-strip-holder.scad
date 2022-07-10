@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2019-2020 Jean-Sebastien CONAN
+ * Copyright (c) 2019-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -24,20 +24,10 @@
  * A small bracket that will hold a LED strip.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
-// As we need to use some shapes, use the right entry point of the library.
-use <../lib/camelSCAD/shapes.scad>
-
-// To be able to use the library shared constants we import the definition file.
-include <../lib/camelSCAD/core/constants.scad>
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
-
-// Defines the constraints of the print.
-printResolution = 0.2;
+// Import the project's setup.
+include <../../config/setup.scad>
 
 // Defines the constraints of the object.
 ledStripWidth = 8.5;
@@ -48,13 +38,10 @@ ledStripPadding = 1;
 screwPadding = 1.5;
 
 // Defines the dimensions of the object.
-groove = ceilBy(ledStripThickness, printResolution);
+groove = ceilBy(ledStripThickness, layerHeight);
 length = ledStripWidth + screwDiameter + 2 * screwPadding + ledStripPadding;
 width = screwDiameter + 2 * screwPadding;
-height = ceilBy(thickness - ledStripThickness, printResolution) + groove;
-
-// Displays a build box visualization to preview the printer area.
-buildBox(center=true);
+height = ceilBy(thickness - ledStripThickness, layerHeight) + groove;
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {

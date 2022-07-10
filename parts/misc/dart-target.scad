@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017-2020 Jean-Sebastien CONAN
+ * Copyright (c) 2017-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -24,15 +24,10 @@
  * A parametric target for darts gun.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
-// As we need to use some shapes, use the right entry point of the library
-use <../lib/camelSCAD/shapes.scad>
-include <../lib/camelSCAD/core/constants.scad>
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
+// Import the project's setup.
+include <../../config/setup.scad>
 
 // Defines the dimensions of the object
 targetDiameter = 50;
@@ -48,9 +43,6 @@ ringWidth = ringDiameter / 4;
 armWidth = ringWidth / 2;
 armLength = targetDiameter * 1.1;
 cornerRadius = socleWidth / 4;
-
-// Displays a build box visualization to preview the printer area.
-buildBox(center=true);
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
