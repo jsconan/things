@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017-2022 Jean-Sebastien CONAN
+ * Copyright (c) 2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -21,31 +21,17 @@
  */
 
 /**
- * A base skeleton to start designing a thing using the camelSCAD library.
+ * Project's bootstrap.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
-// Import the project's setup.
-include <config/setup.scad>
+// As we need to use some shapes, use the right entry point of the library.
+include <../lib/camelSCAD/shapes.scad>
 
-// Defines the constraints of the object.
-count = 2;
+// Defines the project's version
+include <version.scad>
 
-// Defines the dimensions of the object.
-length = 10;
-width = 10;
-height = 10;
-
-// Displays a build box visualization to preview the printer area.
-buildBox(center=true);
-
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    union() {
-        // This is where to define the object
-    }
-}
+// Then we need the config for the project, as well as the related functions
+include <helpers.scad>
+include <config.scad>
