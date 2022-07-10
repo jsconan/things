@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2019-2020 Jean-Sebastien CONAN
+ * Copyright (c) 2019-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -24,20 +24,10 @@
  * A spool holder that mounts on a cylindric food dehydratator.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
-// As we need to use some shapes, use the right entry point of the library.
-use <../lib/camelSCAD/shapes.scad>
-
-// To be able to use the library shared constants we import the definition file.
-include <../lib/camelSCAD/core/constants.scad>
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
-
-// Defines the constraints of the print.
-printResolution = 0.2;
+// Import the project's setup.
+include <../../config/setup.scad>
 
 // Defines the constraints of the object.
 holeDiameter = 62.7;    // the diameter of the hole in the dehydratator plate
@@ -62,16 +52,13 @@ diameters = unshift([ for (i = [0 : len(spoolDiameters) - 1]) spoolDiameters[i] 
 count = len(diameters);
 heights = [ for (i = [0 : count - 1]) i * height + holeDepth + flange + edge ];
 brims = [ for (i = [1 : count - 1]) (diameters[i - 1] - diameters[i]) / 2 ];
-intervalX = [ for (i = [0 : count - 1]) brims[i] / plateRidgeCount - plateRidgeWidth ];
+intervalX = [ for (i = [0 : count - 2]) brims[i] / plateRidgeCount - plateRidgeWidth ];
 intervalY = height / wallRidgeCount - wallRidgeWidth;
 
 plateRidgeX = plateRidgeWidth / 2 * cos(60);
 plateRidgeY = plateRidgeHeight;
 wallRidgeX = wallRidgeHeight;
 wallRidgeY = wallRidgeWidth / 2 * cos(60);
-
-// Displays a build box visualization to preview the printer area.
-buildBox(center=true);
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {

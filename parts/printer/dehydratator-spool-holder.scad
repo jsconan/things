@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2019-2020 Jean-Sebastien CONAN
+ * Copyright (c) 2019-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -24,20 +24,10 @@
  * A spool holder that mounts on a cylindric food dehydratator.
  *
  * @author jsconan
- * @version 0.2.0
  */
 
-// As we need to use some shapes, use the right entry point of the library.
-use <../lib/camelSCAD/shapes.scad>
-
-// To be able to use the library shared constants we import the definition file.
-include <../lib/camelSCAD/core/constants.scad>
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
-
-// Defines the constraints of the print.
-printResolution = 0.2;
+// Import the project's setup.
+include <../../config/setup.scad>
 
 // Defines the constraints of the object.
 mountDiameter = 79;
@@ -57,7 +47,7 @@ spoolHoleRidgeHeight = .5;
 spoolHoleRidgeCount = 6;
 
 // Defines the dimensions of the object.
-plateHeight = roundBy(plateThickness + mountDepth - plateRidgeHeight, printResolution);
+plateHeight = layerAligned(plateThickness + mountDepth - plateRidgeHeight);
 plateDiameter = mountDiameter + mountWall * 2;
 plateBrim = (plateDiameter - spoolHoleDiameter) / 2;
 plateRidgeInterval = plateBrim / plateRidgeCount - plateRidgeWidth;
@@ -68,9 +58,6 @@ spoolHoleInnerDiameter = spoolHoleDiameter - spoolHoleRidgeHeight * 2;
 spoolHoleRidgeInterval = (spoolHoleHeight - spoolHoleRidgeWidth) / spoolHoleRidgeCount - spoolHoleRidgeWidth;
 spoolHoleRidgeX = spoolHoleRidgeHeight;
 spoolHoleRidgeY = spoolHoleRidgeWidth / 2 * cos(60);
-
-// Displays a build box visualization to preview the printer area.
-buildBox(center=true);
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
