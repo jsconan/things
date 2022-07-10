@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2019-2020 Jean-Sebastien CONAN
+ * Copyright (c) 2019-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -24,20 +24,10 @@
  * A guide to align on a particular angle
  *
  * @author jsconan
- * @version 0.1.0
  */
 
-// As we need to use some shapes, use the right entry point of the library.
-use <../lib/camelSCAD/shapes.scad>
-
-// To be able to use the library shared constants we import the definition file.
-include <../lib/camelSCAD/core/constants.scad>
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
-
-// Defines the constraints of the print.
-printResolution = 0.2;
+// Import the project's setup.
+include <../../config/setup.scad>
 
 // Defines the constraints of the object.
 step = 10;
@@ -46,7 +36,7 @@ angle = 60;
 radius = 150;
 
 // Defines the dimensions of the object.
-thickness = printResolution * 3;
+thickness = layers(3);
 shift = arcp(r=vector2D(step), a=angle / 2);
 
 /**
@@ -63,9 +53,6 @@ module holeLine(length, interval, diameter) {
         }
     }
 }
-
-// Displays a build box visualization to preview the printer area.
-buildBox(center=true);
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
@@ -86,7 +73,6 @@ applyMode(mode=renderMode) {
                             pie(r=r - step, a=angle);
                         }
                     }
-
                 }
             }
         }

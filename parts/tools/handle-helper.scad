@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2021 Jean-Sebastien CONAN
+ * Copyright (c) 2021-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -24,17 +24,10 @@
  * A helper to place an ikea handle.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
-// As we need to use some shapes, use the right entry point of the library.
-use <../lib/camelSCAD/shapes.scad>
-
-// To be able to use the library shared constants we import the definition file.
-include <../lib/camelSCAD/core/constants.scad>
-
-// We will render the object using the specifications of this mode
-renderMode = MODE_PROD;
+// Import the project's setup.
+include <../../config/setup.scad>
 
 // Defines the constraints of the object.
 pencilLeadSize = 0.7;
