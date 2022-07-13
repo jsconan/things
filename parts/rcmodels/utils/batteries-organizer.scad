@@ -30,13 +30,16 @@
 include <../../../config/setup.scad>
 
 // Defines the constraints of the object
-batteryCountX = 6;
+batteryCountX = 5;
 batteryCountY = 1;
 batteryDepth = 20;
-batteryType = "DY-2S-600";
+batteryType = "TA-1S-300";
 batteries = [
     ["BF-1S-260", 12.0, 6.3],   // BetaFPV 1S HV 260mAh
+    ["BF-1S-300", 11.6, 6.4],   // BetaFPV 1S HV 300mAh
     ["BF-1S-550", 18.0, 7.4],   // BetaFPV 1S HV 550mAh
+    ["BF-3S-300", 16.5, 12.2],  // BetaFPV 3S 300mAh
+    ["TA-1S-300", 10.4, 6.7],   // Tattu 1S HV 300mAh
     ["HM-1S-450", 18.5, 6.8],   // Happymodel 1S HV 450mAh
     ["DY-2S-600", 24.5, 12.5],  // DYS 2S 600mAh
     ["XT-1S-220", 10.5, 6.2],   // xTron 1S 220mAh
