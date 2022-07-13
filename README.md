@@ -85,6 +85,7 @@ Renders OpenSCAD files
 	./render.sh [command] [-h|--help] [-o|--option value] files
 
   -h,  --help         Show this help
+  -d   --dir          Select a particular parts directory to render
   -f   --format       Set the output format
   -p   --parallel     Set the number of parallel processes
   -c   --clean        Clean up the output folder before rendering
