@@ -27,10 +27,11 @@
 #
 
 # script config
-scriptpath=$(dirname $0)
-project=$(pwd)
-srcpath=${project}/parts
-dstpath=${project}/dist
+scriptpath="$(dirname $0)"
+project="$(pwd)"
+srcpath="${project}/parts"
+dstpath="${project}/dist"
+partsdir=
 format=
 parallel=
 cleanUp=
@@ -41,6 +42,10 @@ source "${scriptpath}/lib/camelSCAD/scripts/utils.sh"
 # load parameters
 while (( "$#" )); do
     case $1 in
+        "-d"|"--dir")
+            partsdir=$2
+            shift
+        ;;
         "-f"|"--format")
             format=$2
             shift
@@ -58,6 +63,7 @@ while (( "$#" )); do
             echo -e "${C_CTX}\t$0 [command] [-h|--help] [-o|--option value] files${C_RST}"
             echo
             echo -e "${C_MSG}  -h,  --help         ${C_RST}Show this help"
+            echo -e "${C_MSG}  -d   --dir          ${C_RST}Select a particular parts directory to render"
             echo -e "${C_MSG}  -f   --format       ${C_RST}Set the output format"
             echo -e "${C_MSG}  -p   --parallel     ${C_RST}Set the number of parallel processes"
             echo -e "${C_MSG}  -c   --clean        ${C_RST}Clean up the output folder before rendering"
@@ -85,10 +91,22 @@ scadformat "${format}"
 # defines the number of parallel processes
 scadprocesses "${parallel}"
 
+# select a parts directory if needed
+if [ "${partsdir}" != "" ]; then
+    srcpath="${srcpath}/${partsdir}"
+    dstpath="${dstpath}/${partsdir}"
+    if [ ! -d "${srcpath}" ]; then
+        printerror "There is no parts directory ${C_SEL}${srcpath}" E_NOTFOUND
+    fi
+fi
+
+# makes sure the destination path exists
+createpath "${dstpath}" "output" > /dev/null
+
 # clean up the output
 if [ "${cleanUp}" != "" ]; then
     printmessage "${C_CTX}Cleaning up the output folder"
     rm -rf "${dstpath}"
 fi
 
-scadrenderallrecurse "${srcpath}" "${dstpath}"
+scadrenderallrecurse "${srcpath}" "${dstpath}" "" "" --quiet
