@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017-2022 Jean-Sebastien CONAN
+ * Copyright (c) 2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -21,31 +21,18 @@
  */
 
 /**
- * A base skeleton to start designing a thing using the camelSCAD library.
+ * Global configuration.
  *
  * @author jsconan
- * @version 0.1.0
  */
 
-// Import the project's setup.
-include <config/setup.scad>
+// We will render the object using the specifications of this mode
+renderMode = MODE_PROD;
 
-// Defines the constraints of the object.
-count = 2;
-
-// Defines the dimensions of the object.
-length = 10;
-width = 10;
-height = 10;
-
-// Displays a build box visualization to preview the printer area.
-buildBox(center=true);
-
-// Sets the minimum facet angle and size using the defined render mode.
-applyMode(mode=renderMode) {
-    // Uncomment the next line to cut a sample from the object
-    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    union() {
-        // This is where to define the object
-    }
-}
+// Defines the characteristics of the printer
+layerHeight = 0.2;          // The height of the printed layers.
+nozzleWidth = 0.4;          // The size of the printer's nozzle.
+printTolerance = 0.1;       // The print tolerance when pieces need to be assembled.
+printInterval = 5;          // The interval between 2 pieces when presented together.
+printerLength = 250;        // The length of the printer's build plate.
+printerWidth = 210;         // The width of the printer's build plate.

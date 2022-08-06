@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2017-2022 Jean-Sebastien CONAN
+ * Copyright (c) 2020-2022 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -21,31 +21,25 @@
  */
 
 /**
- * A base skeleton to start designing a thing using the camelSCAD library.
+ * A curtain rod system.
+ *
+ * An assembled curtain rod
  *
  * @author jsconan
- * @version 0.1.0
  */
 
 // Import the project's setup.
-include <config/setup.scad>
-
-// Defines the constraints of the object.
-count = 2;
-
-// Defines the dimensions of the object.
-length = 10;
-width = 10;
-height = 10;
-
-// Displays a build box visualization to preview the printer area.
-buildBox(center=true);
+include <../../../config/misc/rod/setup.scad>
 
 // Sets the minimum facet angle and size using the defined render mode.
+// Displays a build box visualization to preview the printer area.
 applyMode(mode=renderMode) {
     // Uncomment the next line to cut a sample from the object
     //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
-    union() {
-        // This is where to define the object
-    }
+    rod(
+        diameter = rodDiameter,
+        length = rodLength,
+        width = rodWidth,
+        thickness = rodThickness
+    );
 }
