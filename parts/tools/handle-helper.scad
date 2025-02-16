@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2021-2022 Jean-Sebastien CONAN
+ * Copyright (c) 2021-2025 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -44,7 +44,7 @@ wallHeight = 10;
 
 // Defines the dimensions of the object.
 innerLength = markInterval * (markCount - 1);
-length =innerLength + (markX + paddingX) * 2;
+length = innerLength + (markX + paddingX) * 2;
 width = (markY + paddingY) * 2;
 
 // Draws a cross-mark at the origin
