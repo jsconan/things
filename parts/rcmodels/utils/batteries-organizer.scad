@@ -29,31 +29,43 @@
 // Import the project's setup.
 include <../../../config/setup.scad>
 
+/**
+ * Defines a battery.
+ * @param String name - The name of the defined battery.
+ * @param Number width - The width of the battery's body.
+ * @param Number height - The thickness of the battery's body.
+ * @param Number length - The length of the battery, including the connector.
+ */
+function define(name, width, height, length) = [name, width, height, length];
+
+// List of known batteries
+batteries = [
+    define(name="BF-1S-260",  width=12.0, height=6.3,  length=70), // BetaFPV 1S HV 260mAh
+    define(name="BF-1S-300",  width=11.6, height=6.4,  length=70), // BetaFPV 1S HV 300mAh
+    define(name="BF-1S-550",  width=18.0, height=7.4,  length=70), // BetaFPV 1S HV 550mAh
+    define(name="BF-3S-300",  width=16.5, height=12.2, length=70), // BetaFPV 3S 300mAh
+    define(name="TA-1S-300",  width=10.4, height=6.7,  length=70), // Tattu 1S HV 300mAh
+    define(name="HM-1S-450",  width=18.5, height=6.8,  length=70), // Happymodel 1S HV 450mAh
+    define(name="DY-2S-600",  width=24.5, height=12.5, length=70), // DYS 2S 600mAh
+    define(name="XT-1S-220",  width=10.5, height=6.2,  length=70), // xTron 1S 220mAh
+    define(name="YM-1S-220",  width=11.5, height=6.2,  length=70), // YukiModel 1S 220mAh
+    define(name="YM-2S-600",  width=31.0, height=13.5, length=70), // YukiModel 2S 600mAh
+    define(name="YM-2S-900",  width=29.0, height=12.5, length=70), // YukiModel 2S 900mAh
+    define(name="YM-2S-1000", width=34.5, height=12.5, length=70), // YukiModel 2S 1000mAh
+];
+
 // Defines the constraints of the object
-batteryCountX = 5;
+batteryCountX = 6;
 batteryCountY = 1;
 batteryDepth = 20;
 batteryType = "TA-1S-300";
-batteries = [
-    ["BF-1S-260", 12.0, 6.3],   // BetaFPV 1S HV 260mAh
-    ["BF-1S-300", 11.6, 6.4],   // BetaFPV 1S HV 300mAh
-    ["BF-1S-550", 18.0, 7.4],   // BetaFPV 1S HV 550mAh
-    ["BF-3S-300", 16.5, 12.2],  // BetaFPV 3S 300mAh
-    ["TA-1S-300", 10.4, 6.7],   // Tattu 1S HV 300mAh
-    ["HM-1S-450", 18.5, 6.8],   // Happymodel 1S HV 450mAh
-    ["DY-2S-600", 24.5, 12.5],  // DYS 2S 600mAh
-    ["XT-1S-220", 10.5, 6.2],   // xTron 1S 220mAh
-    ["YM-1S-220", 11.5, 6.2],   // YukiModel 1S 220mAh
-    ["YM-2S-600", 31, 13.5],    // YukiModel 2S 600mAh
-    ["YM-2S-900", 29, 12.5],    // YukiModel 2S 900mAh
-    ["YM-2S-1000", 34.5, 12.5], // YukiModel 2S 1000mAh
-];
 
 // Defines the dimensions of the object
 thickness = shells(2);
 battery = fetch(batteries, batteryType);
 batteryWidth = battery[1];
 batteryThickness = battery[2];
+batteryLength = battery[3];
 overallLength = thickness + (batteryThickness + thickness) * batteryCountX;
 overallWidth = thickness + (batteryWidth + thickness) * batteryCountY;
 overallHeight = thickness + batteryDepth;
