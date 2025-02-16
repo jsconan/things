@@ -41,11 +41,13 @@ paddingY = 5;
 plateThickness = .6;
 wallThickness = .5;
 wallHeight = 10;
+minLength = 200;
+minWidth = 40;
 
 // Defines the dimensions of the object.
 innerLength = markInterval * (markCount - 1);
-length = innerLength + (markX + paddingX) * 2;
-width = (markY + paddingY) * 2;
+length = max(minLength, innerLength + (markX + paddingX) * 2) + wallThickness;
+width = max(minWidth, (markY + paddingY) * 2);
 
 // Draws a cross-mark at the origin
 module mark(width, height, thickness) {
