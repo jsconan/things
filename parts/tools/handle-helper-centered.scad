@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2021-2025 Jean-Sebastien CONAN
+ * Copyright (c) 2025 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -46,7 +46,7 @@ minWidth = 40;
 
 // Defines the dimensions of the object.
 innerLength = markInterval * (markCount - 1);
-length = max(minLength, innerLength + (markX + paddingX) * 2) + wallThickness;
+length = max(minLength, innerLength + (markX + paddingX) * 2);
 width = max(minWidth, (markY + paddingY) * 2);
 
 // Draws a cross-mark at the origin
@@ -57,21 +57,25 @@ module mark(width, height, thickness) {
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
-    repeatMirror(axis = [0, 1, 0]) {
-        translateY(width/2 + 10) {
-            difference() {
-                box([length, width, wallHeight]);
-                translate([wallThickness, wallThickness, plateThickness]) {
-                    box([length, width, wallHeight]);
+    translateY(width/2 + 10) {
+        difference() {
+            box([length, width, wallHeight]);
+            translate([0, wallThickness, plateThickness]) {
+                box([length + 2, width, wallHeight]);
+            }
+            translateX(-innerLength / 2) {
+                repeat(
+                    count = markCount,
+                    intervalX = markInterval
+                ) {
+                    mark(markWidth, wallHeight, pencilLeadSize);
                 }
-                translateX(-innerLength / 2) {
-                    repeat(
-                        count = markCount,
-                        intervalX = markInterval
-                    ) {
-                        mark(markWidth, wallHeight, pencilLeadSize);
-                    }
+            }
+            translateY(width/2) {
+                rotate(45) {
+                    box(10, center=true);
                 }
+                box([pencilLeadSize, width, plateThickness * 3], center=true);
             }
         }
     }
