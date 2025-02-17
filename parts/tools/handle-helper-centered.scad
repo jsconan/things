@@ -41,13 +41,17 @@ paddingY = 5;
 plateThickness = .6;
 wallThickness = .5;
 wallHeight = 10;
-minLength = 200;
-minWidth = 40;
+overallLength = 597;
+margin = 5;
 
 // Defines the dimensions of the object.
 innerLength = markInterval * (markCount - 1);
-length = max(minLength, innerLength + (markX + paddingX) * 2);
-width = max(minWidth, (markY + paddingY) * 2);
+length = innerLength + (markX + paddingX) * 2;
+width = (markY + paddingY) * 2;
+padding = (overallLength - length) / 2 + wallThickness;
+shift = width + margin;
+linkBase = width / 10;
+linkHeight = plateThickness;
 
 // Draws a cross-mark at the origin
 module mark(width, height, thickness) {
@@ -55,28 +59,65 @@ module mark(width, height, thickness) {
     box([thickness, width, height], center=true);
 }
 
+module link(base = 4, height=1, distance=0, neckDistance=0, center=false) {
+    translateX(abs(distance)) {
+        linear_extrude(height=height, center=center, convexity=10) {
+            linkProfile(
+                neck = [base / 2 + abs(distance) + abs(neckDistance), base],
+                bulb = base,
+                distance = distance
+            );
+        }
+    }
+}
+
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
-    translateY(width/2 + 10) {
-        difference() {
-            box([length, width, wallHeight]);
-            translate([0, wallThickness, plateThickness]) {
-                box([length + 2, width, wallHeight]);
+
+    difference() {
+        box([length, width, wallHeight]);
+        translate([0, wallThickness, plateThickness]) {
+            box([length + 2, width, wallHeight]);
+        }
+        translateX(-innerLength / 2) {
+            repeat(
+                count = markCount,
+                intervalX = markInterval
+            ) {
+                mark(markWidth, wallHeight, pencilLeadSize);
             }
-            translateX(-innerLength / 2) {
-                repeat(
-                    count = markCount,
-                    intervalX = markInterval
-                ) {
-                    mark(markWidth, wallHeight, pencilLeadSize);
-                }
+        }
+        translateY(width/2) {
+            rotate(45) {
+                box(10, center=true);
             }
-            translateY(width/2) {
-                rotate(45) {
-                    box(10, center=true);
+            box([pencilLeadSize, width, plateThickness * 3], center=true);
+        }
+        repeatMirror(axis = [1, 0, 0]) {
+            translate([length / 2, 0, -1]) {
+                repeat(count=2, intervalY=width / 2, center=true) {
+                    link(base=linkBase, height=linkHeight + 2, distance=0.12);
                 }
-                box([pencilLeadSize, width, plateThickness * 3], center=true);
             }
         }
     }
+
+    repeatMirror(axis = [0, 1, 0]) {
+        translateY(-shift) {
+            difference() {
+                box([padding, width, wallHeight]);
+                translate([wallThickness, wallThickness, plateThickness]) {
+                    box([padding, width, wallHeight]);
+                }
+            }
+            translateX(padding / 2) {
+                rotateZ(180) {
+                    repeat(count=2, intervalY=width / 2, center=true) {
+                        link(base=linkBase, height=linkHeight);
+                    }
+                }
+            }
+        }
+    }
+
 }
