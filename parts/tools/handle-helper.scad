@@ -41,13 +41,13 @@ paddingY = 5;
 plateThickness = .6;
 wallThickness = .5;
 wallHeight = 10;
-minLength = 200;
-minWidth = 40;
+margin = 5;
 
 // Defines the dimensions of the object.
 innerLength = markInterval * (markCount - 1);
-length = max(minLength, innerLength + (markX + paddingX) * 2) + wallThickness;
-width = max(minWidth, (markY + paddingY) * 2);
+length = innerLength + (markX + paddingX) * 2;
+width = (markY + paddingY) * 2;
+shift = width / 2 + margin;
 
 // Draws a cross-mark at the origin
 module mark(width, height, thickness) {
@@ -58,7 +58,7 @@ module mark(width, height, thickness) {
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
     repeatMirror(axis = [0, 1, 0]) {
-        translateY(width/2 + 10) {
+        translateY(shift) {
             difference() {
                 box([length, width, wallHeight]);
                 translate([wallThickness, wallThickness, plateThickness]) {
