@@ -41,7 +41,7 @@ paddingY = 5;
 plateThickness = .6;
 wallThickness = .5;
 wallHeight = 10;
-overallLength = 597;
+overallLength = 596.5;
 margin = 5;
 
 // Defines the dimensions of the object.
