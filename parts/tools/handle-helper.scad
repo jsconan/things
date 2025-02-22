@@ -30,24 +30,23 @@
 include <../../config/setup.scad>
 
 // Defines the constraints of the object.
-pencilLeadSize = 0.7;
-markWidth = 20;
-markCount = 2;
-markInterval = 96;
-markX = 15;
-markY = 15;
-paddingX = 30;
-paddingY = 5;
-plateThickness = .6;
-wallThickness = .5;
-wallHeight = 10;
-margin = 5;
+pencilLeadSize = 0.7;   // The size of the pencil lead.
+markInterval = 96;      // The interval between marks.
+markDistance = 20;      // The distance between a mark and the border.
+markWidth = 20;         // The width of a mark.
+markCount = 2;          // The number of marks.
+paddingX = 35;          // The padding between a mark and the closest horizontal border.
+paddingY = 10;          // The padding between a mark and the closest vertical border.
+plateThickness = .6;    // The thickness of the plate.
+borderThickness = .5;   // The thickness of the border wall.
+borderHeight = 10;      // The height of the border wall.
+partsInterval = 5;      // The interval between parts.
 
 // Defines the dimensions of the object.
 innerLength = markInterval * (markCount - 1);
-length = innerLength + (markX + paddingX) * 2;
-width = (markY + paddingY) * 2;
-shift = width / 2 + margin;
+length = innerLength + markWidth + paddingX * 2 + borderThickness;
+width = markDistance + markWidth / 2 + paddingY + borderThickness;
+shift = width / 2 - markDistance - borderThickness / 2;
 
 // Draws a cross-mark at the origin
 module mark(width, height, thickness) {
@@ -58,18 +57,22 @@ module mark(width, height, thickness) {
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
     repeatMirror(axis = [0, 1, 0]) {
-        translateY(shift) {
+        translateY(width / 2 + partsInterval) {
             difference() {
-                box([length, width, wallHeight]);
-                translate([wallThickness, wallThickness, plateThickness]) {
-                    box([length, width, wallHeight]);
+                translateX(-borderThickness) {
+                    box([length, width, borderHeight]);
                 }
-                translateX(-innerLength / 2) {
+                translateX(-borderThickness) {
+                    translate([borderThickness, borderThickness, plateThickness]) {
+                        box([length, width, borderHeight]);
+                    }
+                }
+                translate([-innerLength / 2, -shift, 0]) {
                     repeat(
                         count = markCount,
                         intervalX = markInterval
                     ) {
-                        mark(markWidth, wallHeight, pencilLeadSize);
+                        mark(markWidth, borderHeight, pencilLeadSize);
                     }
                 }
             }
