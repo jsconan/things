@@ -46,8 +46,8 @@ partsInterval = 5;      // The interval between parts.
 // Defines the dimensions of the object.
 innerLength = markInterval * (markCount - 1);
 length = innerLength + markWidth + paddingX * 2;
-width = markDistance + markWidth / 2 + paddingY;
-shift = width / 2 - markDistance;
+width = markDistance + markWidth / 2 + paddingY + borderThickness;
+shift = width / 2 - markDistance - borderThickness / 2;
 padding = (overallLength - length) / 2 + borderThickness;
 linkBase = width / 10;
 linkHeight = plateThickness;

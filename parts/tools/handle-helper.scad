@@ -44,9 +44,9 @@ partsInterval = 5;      // The interval between parts.
 
 // Defines the dimensions of the object.
 innerLength = markInterval * (markCount - 1);
-length = innerLength + markWidth + paddingX * 2;
-width = markDistance + markWidth / 2 + paddingY;
-shift = width / 2 - markDistance;
+length = innerLength + markWidth + paddingX * 2 + borderThickness;
+width = markDistance + markWidth / 2 + paddingY + borderThickness;
+shift = width / 2 - markDistance - borderThickness / 2;
 
 // Draws a cross-mark at the origin
 module mark(width, height, thickness) {
@@ -59,9 +59,13 @@ applyMode(mode=renderMode) {
     repeatMirror(axis = [0, 1, 0]) {
         translateY(width / 2 + partsInterval) {
             difference() {
-                box([length, width, borderHeight]);
-                translate([borderThickness, borderThickness, plateThickness]) {
+                translateX(-borderThickness) {
                     box([length, width, borderHeight]);
+                }
+                translateX(-borderThickness) {
+                    translate([borderThickness, borderThickness, plateThickness]) {
+                        box([length, width, borderHeight]);
+                    }
                 }
                 translate([-innerLength / 2, -shift, 0]) {
                     repeat(
