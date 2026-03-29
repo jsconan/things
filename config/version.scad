@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2022 Jean-Sebastien CONAN
+ * Copyright (c) 2022-2026 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -26,4 +26,4 @@
  * @author jsconan
  */
 
-PROJECT_VERSION = "1.0.0";
+PROJECT_VERSION = "1.1.0";
