@@ -31,12 +31,15 @@ include <../../config/setup.scad>
 
 // Defines the dimensions of the object
 handThickness = 3;
+handScale = 1.0;
 
 // Sets the minimum facet angle and size using the defined render mode.
 applyMode(mode=renderMode) {
     rotateZ(90){
-        linear_extrude(height=handThickness, convexity=10) {
-            import("hand.svg", convexity=10, center=true);
+        scale([handScale, handScale, 1]) {
+            linear_extrude(height=handThickness, convexity=10) {
+                import("hand.svg", convexity=10, center=true);
+            }
         }
     }
 }

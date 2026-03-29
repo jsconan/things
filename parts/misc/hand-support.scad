@@ -31,33 +31,34 @@ include <../../config/setup.scad>
 
 // Defines the dimensions of the object
 handThickness = 3;
+handScale = 1.0;
 
 slotAngle = 70;
-slotLength = 66;
+slotLength = 66 * handScale;
 slotWidth = handThickness + 0.2;
-slotPadding = 10;
+slotPadding = 10 * handScale;
 
-standWidth = 100;
+standWidth = 100 * handScale;
 standLength = slotLength + slotPadding * 2;
-standThickness = 5;
-standRadius = 10;
+standThickness = 5 * handScale;
+standRadius = 10 * handScale;
 
-slotBumperThickness = 5;
+slotBumperThickness = 5 * handScale;
 slotBumperWidth = slotWidth + slotPadding;
 slotBumperLength = slotLength + slotPadding;
 slotBumperRadius = standRadius - slotPadding / 2;
 slotBumperPadding = slotPadding * (1 + cos(slotAngle));
 slotBumperOffset = standWidth / 2 - slotBumperPadding;
 
-standWallThickness = 5;
-standGroundThickness = 2;
+standWallThickness = 5 * handScale;
+standGroundThickness = 2 * handScale;
 standHollowWidth = standWidth - standWallThickness * 2 - slotBumperWidth / 2 - slotBumperPadding;
 standHollowLength = standLength - standWallThickness * 2;
 standHollowRadius = standRadius - standWallThickness;
 standHollowOffset = standWallThickness - (standWidth - standHollowWidth) / 2 ;
 
-standMeshGap = 2;
-standMeshPadding = 2;
+standMeshGap = 2 * handScale;
+standMeshPadding = 2 * handScale;
 standMeshWidth = standHollowWidth - standMeshPadding * 2;
 standMeshLength = standHollowLength - standMeshPadding * 2;
 standMeshRadius = standRadius - standMeshPadding - standWallThickness;
