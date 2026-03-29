@@ -2,7 +2,7 @@
  * @license
  * GPLv3 License
  *
- * Copyright (c) 2022-2026 Jean-Sebastien CONAN
+ * Copyright (c) 2024 Jean-Sebastien CONAN
  *
  * This file is part of jsconan/things.
  *
@@ -21,9 +21,24 @@
  */
 
 /**
- * Version of the project.
+ * A simple spacer.
  *
  * @author jsconan
  */
 
-PROJECT_VERSION = "1.1.0";
+// Import the project's setup.
+include <../../config/setup.scad>
+
+// Defines the constraints of the object.
+length = 51;
+width = 25.5;
+height = 12;
+fillet = 7;
+
+// Sets the minimum facet angle and size using the defined render mode.
+// Displays a build box visualization to preview the printer area.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    cushion(size=[length, width, height], r=fillet);
+}
