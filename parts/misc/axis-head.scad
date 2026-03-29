@@ -21,7 +21,7 @@
  */
 
 /**
- * A replacement axe head.
+ * A replacement axis head.
  *
  * @author jsconan
  */
