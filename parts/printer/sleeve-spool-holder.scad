@@ -43,11 +43,12 @@ DEPTH = 2;  // The index of the depth in the spool definition.
 // List of known spool brands and the dimension of their holes.
 spools = [
     define(name="generic",  holeDiameter=50, depth=35),   // Generic spools
-    define(name="prusa",  holeDiameter=45, depth=20),     // Prusa spools
+    define(name="prusa",  holeDiameter=45, depth=30),     // Prusa spools
+    define(name="small",  holeDiameter=45, depth=20),     // Small spools
 ];
 
 // Defines the constraints of the object.
-spoolBrand = "prusa";   // The brand of the spool to fit the sleeve on
+spoolBrand = "small";   // The brand of the spool to fit the sleeve on
 axleDiameter = 26;      // The diameter of the fixed axle to fit in the sleeve
 flangeWidth = 10;       // The width of the sleeve's flange
 flangeThickness = 3;    // The thickness of the sleeve's flange
