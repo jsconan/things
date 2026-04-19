@@ -21,18 +21,19 @@
  */
 
 /**
- * A setup file for the LACK enclosure project.
- *
- * Setup the context.
+ * A leg sleeve that can receive an adjustable leveling foot.
+ * Part of the LACK enclosure project.
  *
  * @author jsconan
  */
 
 // Import the project's setup.
-include <../setup.scad>
+include <../../config/lack-enclosure/setup.scad>
 
-// Then we need the config for the project, as well as the related functions
-include <config.scad>
-
-// Finally, include the shapes
-include <../../shapes/lack-enclosure/leveling-foot-parts.scad>
+// Sets the minimum facet angle and size using the defined render mode.
+// Displays a build box visualization to preview the printer area.
+applyMode(mode=renderMode) {
+    // Uncomment the next line to cut a sample from the object
+    //sample(size=[DEFAULT_BUILD_PLATE_SIZE, DEFAULT_BUILD_PLATE_SIZE, 5], offset=[0, 0, 0])
+    leg_sleeve();
+}

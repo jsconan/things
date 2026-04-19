@@ -26,6 +26,15 @@
  * @author jsconan
  */
 
+// Part constraints.
+leg_sleeve_thickness = 3;           // The thickness of the leg sleeve walls.
+leg_sleeve_depth = 15;              // The depth of the leg sleeve.
+leg_sleeve_facets = 8;              // The number of facets present on the sleeve at the bottom.
+leg_sleeve_fastening_offset = 20;   // The distance from the edge of the sleeve to the center of the screw hole.
+leg_sleeve_fastening_height = 10;   // The height of the fastening hole from the top of the sleeve.
+
+foot_plate_thickness = 2;           // The thickness of the plate that will be tightened by the screw.
+
 // Printer settings.
 layer_height = 0.2;             // The height of each layer in mm.
 
