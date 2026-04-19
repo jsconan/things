@@ -21,8 +21,9 @@
  */
 
 /**
- * An adjustable leveling foot.
  * Part of the LACK enclosure project.
+ *
+ * An adjustable leveling foot.
  *
  * @author jsconan
  */

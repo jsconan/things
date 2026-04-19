@@ -21,7 +21,9 @@
  */
 
 /**
- * Configuration file for the LACK enclosure project.
+ * Part of the LACK enclosure project.
+ *
+ * Configuration for the project.
  *
  * @author jsconan
  */

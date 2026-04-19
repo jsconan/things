@@ -21,8 +21,9 @@
  */
 
 /**
- * A side cover for the nut pocket of a leg sleeve that can receive an adjustable leveling foot.
  * Part of the LACK enclosure project.
+ *
+ * A side cover for the nut pocket of a leg sleeve that can receive an adjustable leveling foot.
  *
  * @author jsconan
  */

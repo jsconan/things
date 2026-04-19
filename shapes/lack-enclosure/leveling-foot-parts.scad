@@ -21,6 +21,8 @@
  */
 
 /**
+ * Part of the LACK enclosure project.
+ *
  * Parts for a sleeve that fits over the leg of a LACK table and can receive an adjustable leveling foot.
  *
  * @author jsconan
