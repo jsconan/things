@@ -37,6 +37,10 @@ foot_plate_thickness = 2;           // The thickness of the plate that will be t
 
 leveling_foot_screw_offset = 1;     // The distance from the screw head to the bottom.
 
+// Print colors
+leveling_foot_color = "#666";     // The color of the leveling foot.
+leg_sleeve_color = "#222";        // The color of the leg sleeve.
+
 // Printer settings.
 layer_height = 0.2;             // The height of each layer in mm.
 
