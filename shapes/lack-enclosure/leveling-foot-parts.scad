@@ -257,3 +257,130 @@ module leg_sleeve(
         _fastening_hole();
     }
 }
+
+/**
+ * A side cover for the nut pocket of a leg sleeve at its place.
+ * @param Number leg_width - the width of the leg that will fit into the sleeve.
+ * @param Number leg_fillet_radius - the radius of the fillet on the leg.
+ * @param Number sleeve_thickness - the thickness of the sleeve walls.
+ * @param Number sleeve_depth - the depth of the sleeve.
+ * @param Number sleeve_facets - the number of facets on the sleeve.
+ * @param Number plate_thickness - the height of the plate that will receive the screw.
+ * @param Number lead_screw_length - the length of the lead screw.
+ * @param Number lead_screw_nut_size - the size of the nut that will receive the lead screw.
+ * @param Number lead_screw_nut_height - the height of the nut on the lead screw.
+ * @param Number lead_screw_lock_nut_height - the height of the lock nut on the lead screw.
+ * @param Number lead_screw_washer_height - the height of the washer on the lead
+ * @param Number lead_screw_washer_diameter - the diameter of the washer on the lead screw.
+ * @param Number adjust - a small value to adjust the dimensions of the holes to ensure proper fit.
+ */
+module leg_sleeve_side_cover_in_place(
+    leg_width = table_leg_width,
+    leg_fillet_radius = table_leg_fillet_radius,
+    sleeve_thickness = leg_sleeve_thickness,
+    sleeve_depth = leg_sleeve_depth,
+    sleeve_facets = leg_sleeve_facets,
+    plate_thickness = foot_plate_thickness,
+    lead_screw_length = m8_screw_length,
+    lead_screw_nut_size = m8_screw_nut_hex_size,
+    lead_screw_nut_height = m8_screw_nut_thickness,
+    lead_screw_lock_nut_height = m8_screw_nut_lp_thickness,
+    lead_screw_washer_height = m8_screw_washer_thickness,
+    lead_screw_washer_diameter = m8_screw_washer_diameter,
+    adjust = .1,
+) {
+    nut_pocket_height = adjustToLayerHeight(lead_screw_nut_height);
+    washer_pocket_height = adjustToLayerHeight(lead_screw_washer_height);
+
+    module _leg_sleeve_body() {
+        leg_sleeve_body(
+            leg_width=leg_width,
+            leg_fillet_radius=leg_fillet_radius,
+            sleeve_thickness=sleeve_thickness,
+            sleeve_depth=sleeve_depth,
+            sleeve_facets=sleeve_facets,
+            plate_thickness=plate_thickness,
+            lead_screw_length=lead_screw_length,
+            lead_screw_lock_nut_height=lead_screw_lock_nut_height,
+            lead_screw_washer_height=lead_screw_washer_height,
+        );
+    }
+    module _nut_hole() {
+        translateZ(plate_thickness) {
+            difference() {
+                translateY(-lead_screw_nut_size / 2) {
+                    cube(size=[leg_width, lead_screw_nut_size, nut_pocket_height]);
+                }
+                translateZ(-1) {
+                    cylinder(h=nut_pocket_height + 2, d=circumradius(n=6, a=lead_screw_nut_size + adjust), $fn=6);
+                }
+            }
+            translateZ(nut_pocket_height) {
+                translate([lead_screw_washer_diameter + adjust, -lead_screw_washer_diameter, 0] / 2) {
+                    cube(size=[leg_width - lead_screw_washer_diameter / 2, lead_screw_washer_diameter, washer_pocket_height]);
+                }
+            }
+        }
+    }
+
+    intersection() {
+        _leg_sleeve_body();
+        _nut_hole();
+    }
+}
+
+/**
+ * A side cover for the nut pocket of a leg sleeve.
+ * @param Number leg_width - the width of the leg that will fit into the sleeve.
+ * @param Number leg_fillet_radius - the radius of the fillet on the leg.
+ * @param Number sleeve_thickness - the thickness of the sleeve walls.
+ * @param Number sleeve_depth - the depth of the sleeve.
+ * @param Number sleeve_facets - the number of facets on the sleeve.
+ * @param Number plate_thickness - the height of the plate that will receive the screw.
+ * @param Number lead_screw_length - the length of the lead screw.
+ * @param Number lead_screw_nut_size - the size of the nut that will receive the lead screw.
+ * @param Number lead_screw_nut_height - the height of the nut on the lead screw.
+ * @param Number lead_screw_lock_nut_height - the height of the lock nut on the lead screw.
+ * @param Number lead_screw_washer_height - the height of the washer on the lead
+ * @param Number lead_screw_washer_diameter - the diameter of the washer on the lead screw.
+ * @param Number adjust - a small value to adjust the dimensions of the holes to ensure proper fit.
+ */
+module leg_sleeve_side_cover(
+    leg_width = table_leg_width,
+    leg_fillet_radius = table_leg_fillet_radius,
+    sleeve_thickness = leg_sleeve_thickness,
+    sleeve_depth = leg_sleeve_depth,
+    sleeve_facets = leg_sleeve_facets,
+    plate_thickness = foot_plate_thickness,
+    lead_screw_length = m8_screw_length,
+    lead_screw_nut_size = m8_screw_nut_hex_size,
+    lead_screw_nut_height = m8_screw_nut_thickness,
+    lead_screw_lock_nut_height = m8_screw_nut_lp_thickness,
+    lead_screw_washer_height = m8_screw_washer_thickness,
+    lead_screw_washer_diameter = m8_screw_washer_diameter,
+    adjust = .1,
+) {
+    nut_pocket_height = adjustToLayerHeight(lead_screw_nut_height);
+    washer_pocket_height = adjustToLayerHeight(lead_screw_washer_height);
+    leg_sleeve_side_cover_height = nut_pocket_height + washer_pocket_height;
+
+    translateZ(plate_thickness + leg_sleeve_side_cover_height) {
+        rotateX(180) {
+            leg_sleeve_side_cover_in_place(
+                leg_width=leg_width,
+                leg_fillet_radius=leg_fillet_radius,
+                sleeve_thickness=sleeve_thickness,
+                sleeve_depth=sleeve_depth,
+                sleeve_facets=sleeve_facets,
+                plate_thickness=plate_thickness,
+                lead_screw_length=lead_screw_length,
+                lead_screw_nut_size=lead_screw_nut_size,
+                lead_screw_nut_height=lead_screw_nut_height,
+                lead_screw_lock_nut_height=lead_screw_lock_nut_height,
+                lead_screw_washer_height=lead_screw_washer_height,
+                lead_screw_washer_diameter=lead_screw_washer_diameter,
+                adjust=adjust,
+            );
+        }
+    }
+}
