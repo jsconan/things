@@ -35,6 +35,8 @@ leg_sleeve_fastening_height = 10;   // The height of the fastening hole from the
 
 foot_plate_thickness = 2;           // The thickness of the plate that will be tightened by the screw.
 
+leveling_foot_screw_offset = 1;     // The distance from the screw head to the bottom.
+
 // Printer settings.
 layer_height = 0.2;             // The height of each layer in mm.
 

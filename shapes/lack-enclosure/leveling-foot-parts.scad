@@ -32,6 +32,7 @@
  * - leg_sleeve_fastening_height
  * - leg_sleeve_fastening_offset
  * - leg_sleeve_thickness
+ * - leveling_foot_screw_offset
  * - m3_screw_diameter
  * - m3_screw_head_diameter
  * - m8_screw_diameter
@@ -99,6 +100,99 @@ function leg_sleeve_width(
     leg_width = table_leg_width,
     sleeve_thickness = leg_sleeve_thickness,
 ) = leg_width + sleeve_thickness * 2;
+
+/**
+ * The height of the adjustable leveling foot.
+ * @param Number plate_thickness - the height of the plate that will receive the screw.
+ * @param Number screw_offset - the distance from the screw head to the bottom.
+ * @param Number screw_head_height - the height of the screw head.
+ * @param Number screw_nut_height - the height of the nut that will secure the screw.
+ * @param Number screw_washer_height - the height of the washer that will support the nut.
+ */
+function leveling_foot_height(
+    plate_thickness = foot_plate_thickness,
+    screw_offset = leveling_foot_screw_offset,
+    screw_head_height = m8_screw_head_thickness,
+    screw_nut_height = m8_screw_nut_lp_thickness,
+    screw_washer_height = m8_screw_washer_thickness,
+) =(
+    plate_thickness +
+    adjustToLayerHeight(screw_head_height + screw_offset) +
+    adjustToLayerHeight(screw_nut_height + screw_washer_height)
+);
+
+/**
+ * An adjustable leveling foot.
+ * @param Number leg_width - the width of the table leg that will fit into the foot.
+ * @param Number sleeve_thickness - the thickness of the sleeve walls.
+ * @param Number sleeve_facets - the number of facets present on the sleeve at the bottom.
+ * @param Number plate_thickness - the height of the plate that will receive the screw.
+ * @param Number screw_diameter - the diameter of the screw that will be used to fasten the foot into the sleeve.
+ * @param Number screw_offset - the distance from the screw head to the bottom.
+ * @param Number screw_head_hex_size - the size of the hexagonal head of the screw.
+ * @param Number screw_head_height - the height of the screw head.
+ * @param Number screw_nut_height - the height of the nut that will secure the screw.
+ * @param Number screw_washer_diameter - the diameter of the washer that will support the nut.
+ * @param Number screw_washer_height - the height of the washer that will support the nut.
+ * @param Number adjust - a small value to adjust the dimensions of the holes to ensure proper fit.
+ */
+module leveling_foot(
+    leg_width = table_leg_width,
+    sleeve_thickness = leg_sleeve_thickness,
+    sleeve_facets = leg_sleeve_facets,
+    plate_thickness = foot_plate_thickness,
+    screw_diameter = m8_screw_diameter,
+    screw_offset = leveling_foot_screw_offset,
+    screw_head_hex_size = m8_screw_head_hex_size,
+    screw_head_height = m8_screw_head_thickness,
+    screw_nut_height = m8_screw_nut_lp_thickness,
+    screw_washer_diameter = m8_screw_washer_diameter,
+    screw_washer_height = m8_screw_washer_thickness,
+    adjust = .1,
+) {
+    sleeve_width = leg_width + sleeve_thickness * 2;
+    diameter = apothem(n=sleeve_facets, r=sleeve_width);
+
+    screw_head_pocket_diameter = circumradius(n=6, a=screw_head_hex_size) + adjust;
+    screw_head_pocket_height = adjustToLayerHeight(screw_head_height + screw_offset);
+    screw_nut_pocket_height = adjustToLayerHeight(screw_nut_height + screw_washer_height);
+    screw_nut_pocket_diameter = screw_washer_diameter + adjust;
+
+    foot_height = leveling_foot_height(
+        plate_thickness=plate_thickness,
+        screw_offset=screw_offset,
+        screw_head_height=screw_head_height,
+        screw_nut_height=screw_nut_height,
+        screw_washer_height=screw_washer_height,
+    );
+
+    foot_nut_position = foot_height - screw_nut_pocket_height;
+    foot_screw_position = 0;
+
+    module _body() {
+        cylinder(h=foot_height, d=diameter);
+    }
+    module _screw_hole() {
+        translateZ(foot_screw_position - 1) {
+            cylinder(h=foot_height + 2, d=screw_diameter + adjust);
+            cylinder(h=screw_head_pocket_height + 1, d=screw_head_pocket_diameter, $fn=6);
+        }
+    }
+    module _nut_hole() {
+        translateZ(foot_nut_position) {
+            cylinder(h=screw_nut_pocket_height + 1, d=screw_nut_pocket_diameter);
+        }
+    }
+    module _hole() {
+        _screw_hole();
+        _nut_hole();
+    }
+
+    difference() {
+        _body();
+        _hole();
+    }
+}
 
 /**
  * The shape of a leg sleeve that can receive an adjustable leveling foot.
