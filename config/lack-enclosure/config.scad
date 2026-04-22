@@ -29,46 +29,42 @@
  */
 
 // Part constraints.
-leg_sleeve_thickness = 3;           // The thickness of the leg sleeve walls.
-leg_sleeve_depth = 15;              // The depth of the leg sleeve.
-leg_sleeve_facets = 8;              // The number of facets present on the sleeve at the bottom.
-leg_sleeve_fastening_offset = 20;   // The distance from the edge of the sleeve to the center of the screw hole.
-leg_sleeve_fastening_height = 10;   // The height of the fastening hole from the top of the sleeve.
+leg_sleeve_thickness = 2;                   // The thickness of the leg sleeve walls.
+leg_sleeve_depth = 15;                      // The depth of the leg sleeve.
+leg_sleeve_facets = 8;                      // The number of facets present on the sleeve at the bottom.
+leg_sleeve_fastening_offset = 20;           // The distance from the edge of the sleeve to the center of the screw hole.
+leg_sleeve_fastening_height = 10;           // The height of the fastening hole from the top of the sleeve.
+leg_sleeve_fastening_length = 30;           // The length of the fastening screws.
+leg_sleeve_fastening_head_diameter = 5.5;   // The diameter of the fastening screw head.
+leg_sleeve_fastening_diameter = 3;          // The diameter of the fastening screws.
+leg_sleeve_screw_nut_size = 13;             // The size of the hexagonal nut used for the leveling foot.
+leg_sleeve_screw_nut_thickness = 6.5;       // The thickness of the hexagonal nut used for the leveling foot.
 
-foot_plate_thickness = 2;           // The thickness of the plate that will be tightened by the screw.
+foot_plate_thickness = 2;                   // The thickness of the plate that will be tightened by the screw.
 
-leveling_foot_screw_offset = 1;     // The distance from the screw head to the bottom.
+leveling_foot_screw_offset = 1;             // The distance from the screw head to the bottom.
+leveling_foot_screw_length = 35;            // The length of the screw used for the leveling foot.
+leveling_foot_screw_diameter = 8;           // The diameter of the screw used for the leveling foot.
+leveling_foot_screw_head_size = 13;         // The size of the hexagonal head of the screw used for the leveling foot.
+leveling_foot_screw_head_thickness = 5.5;   // The thickness of the hexagonal head of the screw used for the leveling foot.
+leveling_foot_screw_nut_thickness = 4;      // The thickness of the low-profile hexagonal nut used for the leveling foot.
+leveling_foot_washer_diameter = 24;         // The outer diameter of the washer used for the leveling foot.
+leveling_foot_washer_thickness = 2;         // The thickness of the washer used for the leveling foot.
 
 // Print colors
-leveling_foot_color = "#666";     // The color of the leveling foot.
-leg_sleeve_color = "#222";        // The color of the leg sleeve.
+leveling_foot_color = "#666";             // The color of the leveling foot.
+leg_sleeve_color = "#222";                // The color of the leg sleeve.
 
 // Printer settings.
-layer_height = 0.2;             // The height of each layer in mm.
+layer_height = 0.2;                         // The height of each layer in mm.
 
 // Adjust a value to be a multiple of the layer height.
 function adjustToLayerHeight(value) = roundBy(value + layer_height, layer_height);
 
 // External part dimensions.
-table_height = 450;             // The height of the LACK table.
-table_width = 550;              // The width of the LACK table.
-table_plate_thickness = 50;     // The thickness of the LACK table plate.
-table_leg_height = 400;         // The height of the LACK table leg.
-table_leg_width = 50;           // The width of the LACK table leg.
-table_leg_fillet_radius = 3;    // The radius of the fillet on the LACK table leg.
-
-m3_screw_diameter = 3;          // The diameter of the M3 screw.
-m3_screw_length = 30;           // The length of the M3 screw.
-m3_screw_head_diameter = 5.5;   // The diameter of the M3 screw head
-m3_screw_head_thickness = 2.5;  // The thickness of the M3 screw head.
-
-m8_screw_diameter = 8;          // The diameter of the M8 screw.
-m8_screw_length = 35;           // The length of the M8 screw.
-m8_screw_head_hex_size = 13;    // The size of the hexagonal head of the M8 screw.
-m8_screw_head_thickness = 5.5;  // The thickness of the hexagonal head of the M8 screw.
-m8_screw_nut_hex_size = 13;     // The size of the M8 hexagonal nut.
-m8_screw_nut_thickness = 6.5;   // The thickness of the M8 hexagonal nut.
-m8_screw_nut_lp_hex_size = 13;  // The size of the low-profile M8 hexagonal nut.
-m8_screw_nut_lp_thickness = 4;  // The thickness of the low-profile M8 hexagonal nut.
-m8_screw_washer_diameter = 24;  // The outer diameter of the M8 washer.
-m8_screw_washer_thickness = 2;  // The thickness of the M8 washer.
+table_height = 450;                         // The height of the LACK table.
+table_width = 550;                          // The width of the LACK table.
+table_plate_thickness = 50;                 // The thickness of the LACK table plate.
+table_leg_height = 400;                     // The height of the LACK table leg.
+table_leg_width = 50;                       // The width of the LACK table leg.
+table_leg_fillet_radius = 3;                // The radius of the fillet on the LACK table leg.

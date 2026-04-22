@@ -31,21 +31,21 @@
  * - foot_plate_thickness
  * - leg_sleeve_depth
  * - leg_sleeve_facets
+ * - leg_sleeve_fastening_diameter
+ * - leg_sleeve_fastening_head_diameter
  * - leg_sleeve_fastening_height
  * - leg_sleeve_fastening_offset
+ * - leg_sleeve_screw_nut_size
+ * - leg_sleeve_screw_nut_thickness
  * - leg_sleeve_thickness
+ * - leveling_foot_screw_diameter
+ * - leveling_foot_screw_head_size
+ * - leveling_foot_screw_head_thickness
+ * - leveling_foot_screw_length
+ * - leveling_foot_screw_nut_thickness
  * - leveling_foot_screw_offset
- * - m3_screw_diameter
- * - m3_screw_head_diameter
- * - m8_screw_diameter
- * - m8_screw_head_hex_size
- * - m8_screw_head_thickness
- * - m8_screw_length
- * - m8_screw_nut_hex_size
- * - m8_screw_nut_lp_thickness
- * - m8_screw_nut_thickness
- * - m8_screw_washer_diameter
- * - m8_screw_washer_thickness
+ * - leveling_foot_washer_diameter
+ * - leveling_foot_washer_thickness
  * - table_leg_fillet_radius
  * - table_leg_width
  */
@@ -54,42 +54,42 @@
  * The height of the body of the leg sleeve part between the leveling foot and the point where the
  * table leg takes place.
  * @param Number plate_thickness - the height of the plate that will receive the screw.
- * @param Number lead_screw_length - the length of the lead screw.
- * @param Number lead_screw_lock_nut_height - the height of the lock nut on the lead screw.
- * @param Number lead_screw_washer_height - the height of the washer on the lead screw.
+ * @param Number screw_length - the length of the lead screw.
+ * @param Number screw_lock_nut_thickness - the height of the lock nut on the lead screw.
+ * @param Number screw_washer_thickness - the height of the washer on the lead screw.
  */
 function leg_sleeve_mount_height(
     plate_thickness = foot_plate_thickness,
-    lead_screw_length = m8_screw_length,
-    lead_screw_lock_nut_height = m8_screw_nut_lp_thickness,
-    lead_screw_washer_height = m8_screw_washer_thickness,
+    screw_length = leveling_foot_screw_length,
+    screw_lock_nut_thickness = leveling_foot_screw_nut_thickness,
+    screw_washer_thickness = leveling_foot_washer_thickness,
 ) = (
     plate_thickness +
-    lead_screw_length -
-    adjustToLayerHeight(lead_screw_lock_nut_height + lead_screw_washer_height + plate_thickness)
+    screw_length -
+    adjustToLayerHeight(screw_lock_nut_thickness + screw_washer_thickness + plate_thickness)
 );
 
 /**
  * The height of a leg sleeve that can receive an adjustable leveling foot.
  * @param Number sleeve_depth - the depth of the sleeve.
  * @param Number plate_thickness - the height of the plate that will receive the screw.
- * @param Number lead_screw_length - the length of the lead screw.
- * @param Number lead_screw_lock_nut_height - the height of the lock nut on the lead screw.
- * @param Number lead_screw_washer_height - the height of the washer on the lead screw.
+ * @param Number screw_length - the length of the lead screw.
+ * @param Number screw_lock_nut_thickness - the height of the lock nut on the lead screw.
+ * @param Number screw_washer_thickness - the height of the washer on the lead screw.
  */
 function leg_sleeve_height(
     sleeve_depth = leg_sleeve_depth,
     plate_thickness = foot_plate_thickness,
-    lead_screw_length = m8_screw_length,
-    lead_screw_lock_nut_height = m8_screw_nut_lp_thickness,
-    lead_screw_washer_height = m8_screw_washer_thickness,
+    screw_length = leveling_foot_screw_length,
+    screw_lock_nut_thickness = leveling_foot_screw_nut_thickness,
+    screw_washer_thickness = leveling_foot_washer_thickness,
 ) = (
     sleeve_depth +
     leg_sleeve_mount_height(
         plate_thickness=plate_thickness,
-        lead_screw_length=lead_screw_length,
-        lead_screw_lock_nut_height=lead_screw_lock_nut_height,
-        lead_screw_washer_height=lead_screw_washer_height,
+        screw_length=screw_length,
+        screw_lock_nut_thickness=screw_lock_nut_thickness,
+        screw_washer_thickness=screw_washer_thickness,
     )
 );
 
@@ -107,20 +107,20 @@ function leg_sleeve_width(
  * The height of the adjustable leveling foot.
  * @param Number plate_thickness - the height of the plate that will receive the screw.
  * @param Number screw_offset - the distance from the screw head to the bottom.
- * @param Number screw_head_height - the height of the screw head.
- * @param Number screw_nut_height - the height of the nut that will secure the screw.
- * @param Number screw_washer_height - the height of the washer that will support the nut.
+ * @param Number screw_head_thickness - the height of the screw head.
+ * @param Number screw_nut_thickness - the height of the nut that will secure the screw.
+ * @param Number screw_washer_thickness - the height of the washer that will support the nut.
  */
 function leveling_foot_height(
     plate_thickness = foot_plate_thickness,
     screw_offset = leveling_foot_screw_offset,
-    screw_head_height = m8_screw_head_thickness,
-    screw_nut_height = m8_screw_nut_lp_thickness,
-    screw_washer_height = m8_screw_washer_thickness,
+    screw_head_thickness = leveling_foot_screw_head_thickness,
+    screw_nut_thickness = leveling_foot_screw_nut_thickness,
+    screw_washer_thickness = leveling_foot_washer_thickness,
 ) =(
     plate_thickness +
-    adjustToLayerHeight(screw_head_height + screw_offset) +
-    adjustToLayerHeight(screw_nut_height + screw_washer_height)
+    adjustToLayerHeight(screw_head_thickness + screw_offset) +
+    adjustToLayerHeight(screw_nut_thickness + screw_washer_thickness)
 );
 
 /**
@@ -132,10 +132,10 @@ function leveling_foot_height(
  * @param Number screw_diameter - the diameter of the screw that will be used to fasten the foot into the sleeve.
  * @param Number screw_offset - the distance from the screw head to the bottom.
  * @param Number screw_head_hex_size - the size of the hexagonal head of the screw.
- * @param Number screw_head_height - the height of the screw head.
- * @param Number screw_nut_height - the height of the nut that will secure the screw.
+ * @param Number screw_head_thickness - the height of the screw head.
+ * @param Number screw_nut_thickness - the height of the nut that will secure the screw.
  * @param Number screw_washer_diameter - the diameter of the washer that will support the nut.
- * @param Number screw_washer_height - the height of the washer that will support the nut.
+ * @param Number screw_washer_thickness - the height of the washer that will support the nut.
  * @param Number adjust - a small value to adjust the dimensions of the holes to ensure proper fit.
  */
 module leveling_foot(
@@ -143,29 +143,29 @@ module leveling_foot(
     sleeve_thickness = leg_sleeve_thickness,
     sleeve_facets = leg_sleeve_facets,
     plate_thickness = foot_plate_thickness,
-    screw_diameter = m8_screw_diameter,
+    screw_diameter = leveling_foot_screw_diameter,
     screw_offset = leveling_foot_screw_offset,
-    screw_head_hex_size = m8_screw_head_hex_size,
-    screw_head_height = m8_screw_head_thickness,
-    screw_nut_height = m8_screw_nut_lp_thickness,
-    screw_washer_diameter = m8_screw_washer_diameter,
-    screw_washer_height = m8_screw_washer_thickness,
+    screw_head_hex_size = leveling_foot_screw_head_size,
+    screw_head_thickness = leveling_foot_screw_head_thickness,
+    screw_nut_thickness = leveling_foot_screw_nut_thickness,
+    screw_washer_diameter = leveling_foot_washer_diameter,
+    screw_washer_thickness = leveling_foot_washer_thickness,
     adjust = .1,
 ) {
     sleeve_width = leg_width + sleeve_thickness * 2;
     diameter = apothem(n=sleeve_facets, r=sleeve_width);
 
     screw_head_pocket_diameter = circumradius(n=6, a=screw_head_hex_size) + adjust;
-    screw_head_pocket_height = adjustToLayerHeight(screw_head_height + screw_offset);
-    screw_nut_pocket_height = adjustToLayerHeight(screw_nut_height + screw_washer_height);
+    screw_head_pocket_height = adjustToLayerHeight(screw_head_thickness + screw_offset);
+    screw_nut_pocket_height = adjustToLayerHeight(screw_nut_thickness + screw_washer_thickness);
     screw_nut_pocket_diameter = screw_washer_diameter + adjust;
 
     foot_height = leveling_foot_height(
         plate_thickness=plate_thickness,
         screw_offset=screw_offset,
-        screw_head_height=screw_head_height,
-        screw_nut_height=screw_nut_height,
-        screw_washer_height=screw_washer_height,
+        screw_head_thickness=screw_head_thickness,
+        screw_nut_thickness=screw_nut_thickness,
+        screw_washer_thickness=screw_washer_thickness,
     );
 
     foot_nut_position = foot_height - screw_nut_pocket_height;
@@ -204,9 +204,9 @@ module leveling_foot(
  * @param Number sleeve_depth - the depth of the sleeve.
  * @param Number sleeve_facets - the number of facets on the sleeve.
  * @param Number plate_thickness - the height of the plate that will receive the screw.
- * @param Number lead_screw_length - the length of the lead screw.
- * @param Number lead_screw_lock_nut_height - the height of the lock nut on the lead screw.
- * @param Number lead_screw_washer_height - the height of the washer on the lead screw.
+ * @param Number screw_length - the length of the lead screw.
+ * @param Number screw_lock_nut_thickness - the height of the lock nut on the lead screw.
+ * @param Number screw_washer_thickness - the height of the washer on the lead screw.
  */
 module leg_sleeve_body(
     leg_width = table_leg_width,
@@ -215,9 +215,9 @@ module leg_sleeve_body(
     sleeve_depth = leg_sleeve_depth,
     sleeve_facets = leg_sleeve_facets,
     plate_thickness = foot_plate_thickness,
-    lead_screw_length = m8_screw_length,
-    lead_screw_lock_nut_height = m8_screw_nut_lp_thickness,
-    lead_screw_washer_height = m8_screw_washer_thickness,
+    screw_length = leveling_foot_screw_length,
+    screw_lock_nut_thickness = leveling_foot_screw_nut_thickness,
+    screw_washer_thickness = leveling_foot_washer_thickness,
 ) {
     sleeve_width = leg_sleeve_width(
         leg_width=leg_width,
@@ -228,9 +228,9 @@ module leg_sleeve_body(
     sleeve_height = leg_sleeve_height(
         sleeve_depth=sleeve_depth,
         plate_thickness=plate_thickness,
-        lead_screw_length=lead_screw_length,
-        lead_screw_lock_nut_height=lead_screw_lock_nut_height,
-        lead_screw_washer_height=lead_screw_washer_height,
+        screw_length=screw_length,
+        screw_lock_nut_thickness=screw_lock_nut_thickness,
+        screw_washer_thickness=screw_washer_thickness,
     );
 
     hull() {
@@ -249,13 +249,13 @@ module leg_sleeve_body(
  * @param Number sleeve_depth - the depth of the sleeve.
  * @param Number sleeve_facets - the number of facets on the sleeve.
  * @param Number plate_thickness - the height of the plate that will receive the screw.
- * @param Number lead_screw_diameter - the diameter of the lead screw.
- * @param Number lead_screw_length - the length of the lead screw.
- * @param Number lead_screw_nut_size - the size of the nut that will receive the lead screw.
- * @param Number lead_screw_nut_height - the height of the nut on the lead screw.
- * @param Number lead_screw_lock_nut_height - the height of the lock nut on the lead screw.
- * @param Number lead_screw_washer_height - the height of the washer on the lead
- * @param Number lead_screw_washer_diameter - the diameter of the washer on the lead screw.
+ * @param Number screw_diameter - the diameter of the lead screw.
+ * @param Number screw_length - the length of the lead screw.
+ * @param Number screw_nut_size - the size of the nut that will receive the lead screw.
+ * @param Number screw_nut_thickness - the height of the nut on the lead screw.
+ * @param Number screw_lock_nut_thickness - the height of the lock nut on the lead screw.
+ * @param Number screw_washer_thickness - the height of the washer on the lead
+ * @param Number screw_washer_diameter - the diameter of the washer on the lead screw.
  * @param Number fastening_diameter - the diameter of the screw that will be used to fasten the sleeve to the leg.
  * @param Number fastening_head_diameter - the diameter of the head of the screw that will be used to fasten the sleeve to the leg.
  * @param Number fastening_offset - the distance from the edge of the sleeve to the center of the fastening screw hole.
@@ -269,29 +269,29 @@ module leg_sleeve(
     sleeve_depth = leg_sleeve_depth,
     sleeve_facets = leg_sleeve_facets,
     plate_thickness = foot_plate_thickness,
-    lead_screw_diameter = m8_screw_diameter,
-    lead_screw_length = m8_screw_length,
-    lead_screw_nut_size = m8_screw_nut_hex_size,
-    lead_screw_nut_height = m8_screw_nut_thickness,
-    lead_screw_lock_nut_height = m8_screw_nut_lp_thickness,
-    lead_screw_washer_height = m8_screw_washer_thickness,
-    lead_screw_washer_diameter = m8_screw_washer_diameter,
-    fastening_diameter = m3_screw_diameter,
-    fastening_head_diameter = m3_screw_head_diameter,
+    screw_diameter = leveling_foot_screw_diameter,
+    screw_length = leveling_foot_screw_length,
+    screw_nut_size = leg_sleeve_screw_nut_size,
+    screw_nut_thickness = leg_sleeve_screw_nut_thickness,
+    screw_lock_nut_thickness = leveling_foot_screw_nut_thickness,
+    screw_washer_thickness = leveling_foot_washer_thickness,
+    screw_washer_diameter = leveling_foot_washer_diameter,
+    fastening_diameter = leg_sleeve_fastening_diameter,
+    fastening_head_diameter = leg_sleeve_fastening_head_diameter,
     fastening_offset = leg_sleeve_fastening_offset,
     fastening_height = leg_sleeve_fastening_height,
     adjust = .1,
 ) {
     leg_mount_height = leg_sleeve_mount_height(
         plate_thickness=plate_thickness,
-        lead_screw_length=lead_screw_length,
-        lead_screw_lock_nut_height=lead_screw_lock_nut_height,
-        lead_screw_washer_height=lead_screw_washer_height,
+        screw_length=screw_length,
+        screw_lock_nut_thickness=screw_lock_nut_thickness,
+        screw_washer_thickness=screw_washer_thickness,
     );
     fastening_hole_offset = leg_width - fastening_offset;
 
-    nut_pocket_height = adjustToLayerHeight(lead_screw_nut_height);
-    washer_pocket_height = adjustToLayerHeight(lead_screw_washer_height);
+    nut_pocket_height = adjustToLayerHeight(screw_nut_thickness);
+    washer_pocket_height = adjustToLayerHeight(screw_washer_thickness);
 
     module _leg_sleeve_body() {
         leg_sleeve_body(
@@ -301,9 +301,9 @@ module leg_sleeve(
             sleeve_depth=sleeve_depth,
             sleeve_facets=sleeve_facets,
             plate_thickness=plate_thickness,
-            lead_screw_length=lead_screw_length,
-            lead_screw_lock_nut_height=lead_screw_lock_nut_height,
-            lead_screw_washer_height=lead_screw_washer_height,
+            screw_length=screw_length,
+            screw_lock_nut_thickness=screw_lock_nut_thickness,
+            screw_washer_thickness=screw_washer_thickness,
         );
     }
     module _leg_housing() {
@@ -313,19 +313,19 @@ module leg_sleeve(
     }
     module _screw_hole() {
         translateZ(-1) {
-            cylinder(h=lead_screw_length + 2, d=lead_screw_diameter + adjust);
+            cylinder(h=screw_length + 2, d=screw_diameter + adjust);
         }
     }
     module _nut_hole() {
         translateZ(plate_thickness) {
-            cylinder(h=nut_pocket_height + layer_height, d=circumradius(n=6, a=lead_screw_nut_size) + adjust, $fn=6);
-            translateY(-(lead_screw_nut_size + adjust) / 2) {
-                cube(size=[leg_width, lead_screw_nut_size + adjust, nut_pocket_height + layer_height]);
+            cylinder(h=nut_pocket_height + layer_height, d=circumradius(n=6, a=screw_nut_size) + adjust, $fn=6);
+            translateY(-(screw_nut_size + adjust) / 2) {
+                cube(size=[leg_width, screw_nut_size + adjust, nut_pocket_height + layer_height]);
             }
             translateZ(nut_pocket_height) {
-                cylinder(h=washer_pocket_height, d=lead_screw_washer_diameter + adjust);
-                translateY(-(lead_screw_washer_diameter + adjust) / 2) {
-                    cube(size=[leg_width, lead_screw_washer_diameter + adjust, washer_pocket_height]);
+                cylinder(h=washer_pocket_height, d=screw_washer_diameter + adjust);
+                translateY(-(screw_washer_diameter + adjust) / 2) {
+                    cube(size=[leg_width, screw_washer_diameter + adjust, washer_pocket_height]);
                 }
             }
         }
@@ -362,12 +362,12 @@ module leg_sleeve(
  * @param Number sleeve_depth - the depth of the sleeve.
  * @param Number sleeve_facets - the number of facets on the sleeve.
  * @param Number plate_thickness - the height of the plate that will receive the screw.
- * @param Number lead_screw_length - the length of the lead screw.
- * @param Number lead_screw_nut_size - the size of the nut that will receive the lead screw.
- * @param Number lead_screw_nut_height - the height of the nut on the lead screw.
- * @param Number lead_screw_lock_nut_height - the height of the lock nut on the lead screw.
- * @param Number lead_screw_washer_height - the height of the washer on the lead
- * @param Number lead_screw_washer_diameter - the diameter of the washer on the lead screw.
+ * @param Number screw_length - the length of the lead screw.
+ * @param Number screw_nut_size - the size of the nut that will receive the lead screw.
+ * @param Number screw_nut_thickness - the height of the nut on the lead screw.
+ * @param Number screw_lock_nut_thickness - the height of the lock nut on the lead screw.
+ * @param Number screw_washer_thickness - the height of the washer on the lead
+ * @param Number screw_washer_diameter - the diameter of the washer on the lead screw.
  * @param Number adjust - a small value to adjust the dimensions of the holes to ensure proper fit.
  */
 module leg_sleeve_side_cover_in_place(
@@ -377,16 +377,16 @@ module leg_sleeve_side_cover_in_place(
     sleeve_depth = leg_sleeve_depth,
     sleeve_facets = leg_sleeve_facets,
     plate_thickness = foot_plate_thickness,
-    lead_screw_length = m8_screw_length,
-    lead_screw_nut_size = m8_screw_nut_hex_size,
-    lead_screw_nut_height = m8_screw_nut_thickness,
-    lead_screw_lock_nut_height = m8_screw_nut_lp_thickness,
-    lead_screw_washer_height = m8_screw_washer_thickness,
-    lead_screw_washer_diameter = m8_screw_washer_diameter,
+    screw_length = leveling_foot_screw_length,
+    screw_nut_size = leg_sleeve_screw_nut_size,
+    screw_nut_thickness = leg_sleeve_screw_nut_thickness,
+    screw_lock_nut_thickness = leveling_foot_screw_nut_thickness,
+    screw_washer_thickness = leveling_foot_washer_thickness,
+    screw_washer_diameter = leveling_foot_washer_diameter,
     adjust = .1,
 ) {
-    nut_pocket_height = adjustToLayerHeight(lead_screw_nut_height);
-    washer_pocket_height = adjustToLayerHeight(lead_screw_washer_height);
+    nut_pocket_height = adjustToLayerHeight(screw_nut_thickness);
+    washer_pocket_height = adjustToLayerHeight(screw_washer_thickness);
 
     module _leg_sleeve_body() {
         leg_sleeve_body(
@@ -396,24 +396,24 @@ module leg_sleeve_side_cover_in_place(
             sleeve_depth=sleeve_depth,
             sleeve_facets=sleeve_facets,
             plate_thickness=plate_thickness,
-            lead_screw_length=lead_screw_length,
-            lead_screw_lock_nut_height=lead_screw_lock_nut_height,
-            lead_screw_washer_height=lead_screw_washer_height,
+            screw_length=screw_length,
+            screw_lock_nut_thickness=screw_lock_nut_thickness,
+            screw_washer_thickness=screw_washer_thickness,
         );
     }
     module _nut_hole() {
         translateZ(plate_thickness) {
             difference() {
-                translateY(-lead_screw_nut_size / 2) {
-                    cube(size=[leg_width, lead_screw_nut_size, nut_pocket_height]);
+                translateY(-screw_nut_size / 2) {
+                    cube(size=[leg_width, screw_nut_size, nut_pocket_height]);
                 }
                 translateZ(-1) {
-                    cylinder(h=nut_pocket_height + 2, d=circumradius(n=6, a=lead_screw_nut_size + adjust), $fn=6);
+                    cylinder(h=nut_pocket_height + 2, d=circumradius(n=6, a=screw_nut_size + adjust), $fn=6);
                 }
             }
             translateZ(nut_pocket_height) {
-                translate([lead_screw_washer_diameter + adjust, -lead_screw_washer_diameter, 0] / 2) {
-                    cube(size=[leg_width - lead_screw_washer_diameter / 2, lead_screw_washer_diameter, washer_pocket_height]);
+                translate([screw_washer_diameter + adjust, -screw_washer_diameter, 0] / 2) {
+                    cube(size=[leg_width - screw_washer_diameter / 2, screw_washer_diameter, washer_pocket_height]);
                 }
             }
         }
@@ -433,12 +433,12 @@ module leg_sleeve_side_cover_in_place(
  * @param Number sleeve_depth - the depth of the sleeve.
  * @param Number sleeve_facets - the number of facets on the sleeve.
  * @param Number plate_thickness - the height of the plate that will receive the screw.
- * @param Number lead_screw_length - the length of the lead screw.
- * @param Number lead_screw_nut_size - the size of the nut that will receive the lead screw.
- * @param Number lead_screw_nut_height - the height of the nut on the lead screw.
- * @param Number lead_screw_lock_nut_height - the height of the lock nut on the lead screw.
- * @param Number lead_screw_washer_height - the height of the washer on the lead
- * @param Number lead_screw_washer_diameter - the diameter of the washer on the lead screw.
+ * @param Number screw_length - the length of the lead screw.
+ * @param Number screw_nut_size - the size of the nut that will receive the lead screw.
+ * @param Number screw_nut_thickness - the height of the nut on the lead screw.
+ * @param Number screw_lock_nut_thickness - the height of the lock nut on the lead screw.
+ * @param Number screw_washer_thickness - the height of the washer on the lead
+ * @param Number screw_washer_diameter - the diameter of the washer on the lead screw.
  * @param Number adjust - a small value to adjust the dimensions of the holes to ensure proper fit.
  */
 module leg_sleeve_side_cover(
@@ -448,16 +448,16 @@ module leg_sleeve_side_cover(
     sleeve_depth = leg_sleeve_depth,
     sleeve_facets = leg_sleeve_facets,
     plate_thickness = foot_plate_thickness,
-    lead_screw_length = m8_screw_length,
-    lead_screw_nut_size = m8_screw_nut_hex_size,
-    lead_screw_nut_height = m8_screw_nut_thickness,
-    lead_screw_lock_nut_height = m8_screw_nut_lp_thickness,
-    lead_screw_washer_height = m8_screw_washer_thickness,
-    lead_screw_washer_diameter = m8_screw_washer_diameter,
+    screw_length = leveling_foot_screw_length,
+    screw_nut_size = leg_sleeve_screw_nut_size,
+    screw_nut_thickness = leg_sleeve_screw_nut_thickness,
+    screw_lock_nut_thickness = leveling_foot_screw_nut_thickness,
+    screw_washer_thickness = leveling_foot_washer_thickness,
+    screw_washer_diameter = leveling_foot_washer_diameter,
     adjust = .1,
 ) {
-    nut_pocket_height = adjustToLayerHeight(lead_screw_nut_height);
-    washer_pocket_height = adjustToLayerHeight(lead_screw_washer_height);
+    nut_pocket_height = adjustToLayerHeight(screw_nut_thickness);
+    washer_pocket_height = adjustToLayerHeight(screw_washer_thickness);
     leg_sleeve_side_cover_height = nut_pocket_height + washer_pocket_height;
 
     translateZ(plate_thickness + leg_sleeve_side_cover_height) {
@@ -469,12 +469,12 @@ module leg_sleeve_side_cover(
                 sleeve_depth=sleeve_depth,
                 sleeve_facets=sleeve_facets,
                 plate_thickness=plate_thickness,
-                lead_screw_length=lead_screw_length,
-                lead_screw_nut_size=lead_screw_nut_size,
-                lead_screw_nut_height=lead_screw_nut_height,
-                lead_screw_lock_nut_height=lead_screw_lock_nut_height,
-                lead_screw_washer_height=lead_screw_washer_height,
-                lead_screw_washer_diameter=lead_screw_washer_diameter,
+                screw_length=screw_length,
+                screw_nut_size=screw_nut_size,
+                screw_nut_thickness=screw_nut_thickness,
+                screw_lock_nut_thickness=screw_lock_nut_thickness,
+                screw_washer_thickness=screw_washer_thickness,
+                screw_washer_diameter=screw_washer_diameter,
                 adjust=adjust,
             );
         }
