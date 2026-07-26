@@ -66,16 +66,32 @@ module fridgeDoorFastener(
     bodyWidth = screwDiameter + screwPaddingY * 2;
     length = intervalLength + screwDiameter + screwPaddingX * 2;
     width = bodyWidth + flangeWidth;
-    height = thickness + spacerThickness;
+    maxHeight = max(thickness) + spacerThickness;
+    height = min(thickness) + spacerThickness;
     screwHeadHole = height - screwThickness - spacerThickness;
-    spacerHole = length - abs(spacerLength);
+    spacerHole = length - abs(spacerLength) + bodyWidth / 2;
+    sides = apply2D(thickness);
+    slopeHeight = max(sides) - min(sides);
+    slope = slopeHeight / length;
+    angle = atan(slope) * sign(sides[1] - sides[0]);
+    align = maxHeight / 2;
 
-    echo("Overall size:", length, width, height);
+    echo("------------");
+    echo("Overall size");
+    echo(length=length);
+    echo(width=width);
+    echo(height=height);
+    echo(maxHeight=maxHeight);
+    echo(sides=sides);
+    echo(slope=slope);
+    echo(slopeH=slopeHeight);
+    echo(angle=angle);
+    echo("------------");
 
     difference() {
         // the main body, including the flange
         translateY(flangeWidth / 2) {
-            cushion(size=[length, width, height], r=roundCorner);
+            cushion(size=[length, width, maxHeight], r=roundCorner);
         }
 
         // drill the flange
@@ -85,32 +101,32 @@ module fridgeDoorFastener(
             }
         }
 
-        // dril the screw holes
-        translateX(-intervalLength / 2) {
-            repeat(count=screwCount, interval=[screwInterval, 0, 0]) {
-                // head
-                translateZ(-ALIGN) {
-                    cylinder(d=screwHeadDiameter, h=screwHeadHole + ALIGN);
+        translateZ(height) {
+            rotateY(angle) {
+                // drill the screw holes
+                translateZ(-height) {
+                    translateX(-intervalLength / 2) {
+                        repeat(count=screwCount, interval=[screwInterval, 0, 0]) {
+                            translateZ(-align) {
+                                // head
+                                cylinder(d=screwHeadDiameter, h=screwHeadHole + align);
 
-                }
-                // body
-                translateZ(screwThickness) {
-                    cylinder(d=screwDiameter, h=height);
-                }
-            }
-        }
-
-        // optional spacer
-        translate([spacerSide * (spacerLength + ALIGN) / 2, 0, height - spacerThickness]) {
-            box([spacerHole + ALIGN2, width, spacerThickness + ALIGN]);
-
-            translateX(-spacerSide * (spacerHole + bodyWidth + ALIGN2) / 2) {
-                negativeExtrude(height=spacerThickness + ALIGN2) {
-                    difference() {
-                        translateX(spacerSide * bodyWidth / 4 - ALIGN) {
-                            rectangle([bodyWidth / 2 + ALIGN, bodyWidth + ALIGN2]);
+                                // body
+                                cylinder(d=screwDiameter, h=maxHeight + align * 2);
+                            }
                         }
-                        circle(d=bodyWidth);
+                    }
+                }
+                // optional spacer
+                box([length + align, width, height]);
+                translateZ(-spacerThickness) {
+                    translateX(spacerSide * (spacerLength + spacerLength / 2 - spacerHole + align / 2)) {
+                        difference() {
+                            box([spacerHole + align, width, height]);
+                            translate([spacerSide * (-spacerHole - align) / 2, 0, -ALIGN]) {
+                                cylinder(d=bodyWidth, h=height + ALIGN2);
+                            }
+                        }
                     }
                 }
             }
@@ -131,17 +147,17 @@ flangeWidth = 10;           // The width of the flange from the border of the fa
 flangeThickness = 2;        // The thickness of the flange
 models = [
     [
-        ["thickness", 18],          // The overall thickness of the fastener (the distance between the fridge and the cover door)
+        ["thickness", [21, 24]],          // The overall thickness of the fastener (the distance between the fridge and the cover door)
         ["spacerSide", 0],          // The side where to place the spacer: -1=left, 1=right
         ["spacerLength", 0],        // The length of the optional spacer area to add
         ["spacerThickness", 0],     // The thickness of the optional spacer area to add
     ],
     [
-        ["thickness", 13],          // The overall thickness of the fastener (the distance between the fridge and the cover door)
+        ["thickness", [8, 11]],          // The overall thickness of the fastener (the distance between the fridge and the cover door)
         ["spacerSide", -1],         // The side where to place the spacer: -1=left, 1=right
         ["spacerLength", 55],       // The length of the optional spacer area to add
         ["spacerThickness", 4.4],   // The thickness of the optional spacer area to add
-    ]
+    ],
 ];
 
 // Sets the minimum facet angle and size using the defined render mode.
