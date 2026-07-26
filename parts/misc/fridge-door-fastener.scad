@@ -158,6 +158,18 @@ models = [
         ["spacerLength", 55],       // The length of the optional spacer area to add
         ["spacerThickness", 4.4],   // The thickness of the optional spacer area to add
     ],
+    [
+        ["thickness", [24, 21]],          // The overall thickness of the fastener (the distance between the fridge and the cover door)
+        ["spacerSide", 0],          // The side where to place the spacer: -1=left, 1=right
+        ["spacerLength", 0],        // The length of the optional spacer area to add
+        ["spacerThickness", 0],     // The thickness of the optional spacer area to add
+    ],
+    [
+        ["thickness", [11, 8]],          // The overall thickness of the fastener (the distance between the fridge and the cover door)
+        ["spacerSide", 1],         // The side where to place the spacer: -1=left, 1=right
+        ["spacerLength", 55],       // The length of the optional spacer area to add
+        ["spacerThickness", 4.4],   // The thickness of the optional spacer area to add
+    ]
 ];
 
 // Sets the minimum facet angle and size using the defined render mode.
